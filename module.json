@@ -1,0 +1,35 @@
+{
+    "name": "masks-newgen-sheets",
+    "title": "Masks: A New Generation Sheets",
+    "description": "A default set of enhanced and updated sheets for use with Masks: A New Generation!",
+    "author": "Geekswordsman (@Geekswordsman#3085)",
+    "authors": [
+        {
+            "name": "Geekswordsman",
+            "discord": "@Geekswordsman#3085"
+        }
+    ],
+    "version": "1.0.0",
+    "minimumCoreVersion": "9",
+    "compatibleCoreVersion": "9",
+    "styles": [ 
+        "styles/masks-sheets.css" 
+    ],
+    "esmodules": [
+        "module/masks-character-sheet.mjs"
+    ],
+    "languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "languages/en.json"
+        }
+    ],
+    "url": "https://gitlab.com/geekswordsman/masks-newgen-sheets",
+    "manifest": "https://gitlab.com/geekswordsman/masks-newgen-sheets/-/raw/main/module.json",
+    "download": "https://gitlab.com/geekswordsman/masks-newgen-sheets/-/archive/v1.0.0/masks-newgen-sheets-v1.0.0.zip",
+    "license": "https://gitlab.com/geekswordsman/masks-newgen-sheets/-/raw/main/LICENSE",
+    "readme": "https://gitlab.com/geekswordsman/masks-newgen-sheets/-/raw/main/README.MD",
+    "bugs": "https://gitlab.com/geekswordsman/masks-newgen-sheets/-/issues",
+    "changelog": "https://gitlab.com/geekswordsman/masks-newgen-sheets/-/raw/main/CHANGELOG.md"
+}
