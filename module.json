@@ -16,7 +16,7 @@
         "styles/masks-sheets.css" 
     ],
     "esmodules": [
-        "module/masks-character-sheet.mjs"
+        "module/masks-sheets.mjs"
     ],
     "languages": [
         {
