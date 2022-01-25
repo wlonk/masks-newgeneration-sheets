@@ -3,7 +3,7 @@ import { PbtaActorSheet } from "../../../systems/pbta/module/actor/actor-sheet.j
 export class MasksPbtASheet extends PbtaActorSheet {
     get template() {
         //Decision making based on permission level, for now one sheet
-        return "modules/masks-newgeneration-unofficial/templates/actor-sheet.hbs";
+        return "modules/masks-newgen-sheets/templates/actor-sheet.hbs";
     }
 
     static get defaultOptions() {
