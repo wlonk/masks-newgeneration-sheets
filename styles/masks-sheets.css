@@ -3,6 +3,10 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.pbta.sheet.masks .sheet-attributes { position: relative; }
+.pbta.sheet.masks .masks-background-image { position: absolute; bottom: 0px; left: 0px; width: 100%; z-index: -1; }
+.pbta.sheet.masks .masks-background-image img { border: 0px; vertical-align: bottom; width: 100%; background-color: skyblue;}
+
 .pbta.sheet.masks .sheet-wrapper .sheet-bottom .cell.cell--bio { min-height: 175px; }
 .pbta.sheet.masks .sheet-wrapper .sheet-bottom .cell.cell--bio .editor { min-height: calc(100% - 40px); }
 

@@ -19,6 +19,9 @@
     <section class="sheet-top">
       {{!-- Attributes --}}
       <section class="sheet-attributes">
+        {{!-- <div class="masks-background-image">
+          <img src="modules/masks-newgeneration-sheets/assets/skyline.svg" />
+       </div> --}}
 
         <div class="cell cell--image">
           <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100"
@@ -160,7 +163,7 @@
               </div>
               <div class="cell cell--bio">
                 <label class="cell__title">Abilities and Description of Powers</label>
-                {{editor content=data.details.powers target="data.details.powers" button=true owner=owner
+                {{editor content=data.attrLeft.abilities.value target="data.attrLeft.abilities.value" button=true owner=owner
                 editable=editable}}
               </div>
             </div>
