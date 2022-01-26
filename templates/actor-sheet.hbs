@@ -136,7 +136,7 @@
         <nav class="sheet-tabs tabs" data-group="primary">
           <a class="item" data-tab="description">{{localize "PBTA.Description"}}</a>
           <a class="item" data-tab="moves">{{localize "PBTA.Moves"}}</a>
-          <a class="item" data-tab="equipment">{{localize "PBTA.Equipment"}}</a>
+          <a class="item" data-tab="equipment">Resources</a>
           <a class="item" data-tab="influences">{{localize "MASKS-SHEETS.Influences"}}</a>
         </nav>
 
@@ -147,23 +147,28 @@
           <div class="tab description" data-group="primary" data-tab="description">
             <div class="sheet-tab">
               <div class="cell cell--bio">
-                <label class="cell__title">Appearance</label>
+                <label class="cell__title">Look & Appearance</label>
                 {{editor content=data.attrLeft.look.value target="data.attrLeft.look.value" button=true owner=owner
-                editable=editable}}
-              </div>
-              <div class="cell cell--bio">
-                <label class="cell__title">Origin</label>
-                {{editor content=data.details.origin target="data.details.origin" button=true owner=owner
-                editable=editable}}
-              </div>
-              <div class="cell cell--bio">
-                <label class="cell__title">{{localize "PBTA.Biography"}}</label>
-                {{editor content=data.details.biography target="data.details.biography" button=true owner=owner
                 editable=editable}}
               </div>
               <div class="cell cell--bio">
                 <label class="cell__title">Abilities and Description of Powers</label>
                 {{editor content=data.attrLeft.abilities.value target="data.attrLeft.abilities.value" button=true owner=owner
+                editable=editable}}
+              </div>
+              <div class="cell cell--bio">
+                <label class="cell__title">Backstory</label>
+                {{editor content=data.details.biography target="data.details.biography" button=true owner=owner
+                editable=editable}}
+              </div>
+              <div class="cell cell--bio">
+                <label class="cell__title">When Our Team First Came Together</label>
+                {{editor content=data.details.team target="data.details.team" button=true owner=owner
+                editable=editable}}
+              </div>
+              <div class="cell cell--bio">
+                <label class="cell__title">Relationships</label>
+                {{editor content=data.details.relationships target="data.details.relationships" button=true owner=owner
                 editable=editable}}
               </div>
             </div>
@@ -276,14 +281,18 @@
                 {{#each influences}}
                 <li class="item flexrow" data-influence-id="{{id}}">
                   <div class="influence-name">
-                    <img class="influence-icon" src="modules/masks-newgeneration-unofficial/images/gameicons/shadow-follower-%23ffffff-%233da7db.svg" />
+                    <img class="influence-icon" data-influence-action="roll" src="modules/masks-newgeneration-unofficial/images/gameicons/shadow-follower-%23ffffff-%233da7db.svg" />
                     <input type="text" class="influence--name" value="{{name}}" />
                   </div>
                   <div class="influence-management">
-                    <img class="influence-icon" src="modules/masks-newgeneration-unofficial/images/gameicons/team-downgrade-%23ffffff-%233da7db.svg" title="Has Influence Over You" />
-                    <img class="influence-icon" src="modules/masks-newgeneration-unofficial/images/gameicons/team-upgrade-%23ffffff-%233da7db.svg" title="You Have Influence Over Them" />
-                    <img class="influence-icon" src="icons/svg/door-locked-outline.svg" title="Locked" />
-                    <a class="influence-control influence-delete" title="Delete Influence"><i class="fas fa-trash"></i></a>
+                    <img class="influence-icon {{#unless hasInfluenceOver}}influence-disabled{{/unless}}" data-influence-action="hasInfluenceOver" src="modules/masks-newgeneration-unofficial/images/gameicons/team-downgrade-%23ffffff-%233da7db.svg" title="Has Influence Over You" />
+                    <img class="influence-icon {{#unless haveInfluenceOver}}influence-disabled{{/unless}}" data-influence-action="haveInfluenceOver" src="modules/masks-newgeneration-unofficial/images/gameicons/team-upgrade-%23ffffff-%233da7db.svg" title="You Have Influence Over Them" />
+                    {{#if locked}}
+                    <a class="influence-control influence-lock" data-influence-action="lock"><i class="fas fa-lock"></i></a>
+                    {{else}}
+                    <a class="influence-control influence-unlock" data-influence-action="lock"><i class="fas fa-lock-open"></i></a>
+                    {{/if}}
+                    <a class="influence-control influence-delete" data-influence-action="delete" title="Delete Influence"><i class="fas fa-trash"></i></a>
                   </div>
                 </li>
                 {{/each}}

@@ -29,7 +29,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
 
         html.find('.influence-create').on('click', this._onInfluenceCreate.bind(this));
         html.find('.influence--name').on('change', this._onInfluenceEdit.bind(this));
-        html.find('.influence-icon').on('click', this._onInfluenceRoll.bind(this));
+        html.find('[data-influence-action]').on('click', this._onInfluenceAction.bind(this));
     }
 
     async _onInfluenceCreate(event) {
@@ -57,30 +57,53 @@ export class MasksPbtASheet extends PbtaActorSheet {
         await this.actor.setFlag(MasksPbtaSheets.MODULEID, "influences", influences);
     }
 
-    async _onInfluenceRoll(event) {
-        let influenceID = $($(event.target).parents("[data-influence-id]")[0]).data().influenceId;
+    async _onInfluenceAction(event) {
+        const clickedElement = $(event.currentTarget);
+        const action = clickedElement.data().influenceAction;
+        let influenceID = $(clickedElement.parents("[data-influence-id]")[0]).data().influenceId;
         let influences = this.actor.getFlag(MasksPbtaSheets.MODULEID, "influences");
         let influence = influences.find(i => i.id === influenceID);
 
-        const pack = game.packs.get("masks-newgeneration-unofficial.moves-revised");
-        const influenceData = (await pack.getDocument("cKdLivE2qMEVFPXt")).data;
-
-        let rollData = {
-            name: influenceData.name.replace("?", influence.name),
-            type: "move",
-            img: influenceData.img,
-            data: {
-                name: '',
-                description: influenceData.data.description,
-                img: influenceData.data.img,
-                rollType: ''
-            }
+        if (influence.locked && /lock|roll/.exec(action) === null) {
+            return;
         }
 
-        //create chat message
-        PbtaRolls.rollMove({actor: this.actor, data: rollData});
+        switch (action) {
+            case "roll":
+                const pack = game.packs.get("masks-newgeneration-unofficial.moves-revised");
+                const influenceData = (await pack.getDocument("cKdLivE2qMEVFPXt")).data;
+        
+                let rollData = {
+                    name: influenceData.name.replace("?", influence.name),
+                    type: "move",
+                    img: influenceData.img,
+                    data: {
+                        name: '',
+                        description: influenceData.data.description,
+                        img: influenceData.data.img,
+                        rollType: ''
+                    }
+                }
+        
+                //create chat message
+                PbtaRolls.rollMove({actor: this.actor, data: rollData});
+                break;
+            case "hasInfluenceOver":
+                influence.hasInfluenceOver = !influence.hasInfluenceOver;
+                break;
+            case "haveInfluenceOver":
+                influence.haveInfluenceOver = !influence.haveInfluenceOver;
+                break;
+            case "lock":
+                influence.locked = !influence.locked;
+                break;
+            case "delete":
+                influences = influences.filter(i => i.id !== influence.id);
+                break;
+            default:
+                break;
+        }
 
-        influence.active = false;
         await this.actor.setFlag(MasksPbtaSheets.MODULEID, "influences", influences);
     }
 }

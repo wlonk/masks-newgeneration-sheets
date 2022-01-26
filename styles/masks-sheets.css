@@ -20,4 +20,5 @@
 .pbta.sheet.masks .influences input.influence--name { width: calc(100% - 36px); font-size: 18px; text-align: left; height: 32px; margin: 0px 0px 8px 0px; }
 .pbta.sheet.masks .influences .influence-management { margin: 0px 0px 8px 0px; display: flex; flex-direction: row; text-align: center; flex: 4; }
 .pbta.sheet.masks .influences img.influence-icon { flex: 1; vertical-align: top; border: 0; height: 32px; width: 32px; padding: 0; margin: 0; border-radius: 0; cursor: pointer; }
-.pbta.sheet.masks .influences .influence-management .influence-control.influence-delete { font-size: 32px; flex: 1; }
+.pbta.sheet.masks .influences .influence-management .influence-control.influence-delete,.influence-control.influence-lock,.influence-control.influence-unlock { font-size: 28px; flex: 1; }
+.pbta.sheet.masks .influences .influence-management .influence-disabled { filter: grayscale(1); }
