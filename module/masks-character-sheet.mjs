@@ -38,7 +38,9 @@ export class MasksPbtASheet extends PbtaActorSheet {
         let item = {
             "id": foundry.utils.randomID(),
             "name": "Person Name",
-            "active": true
+            "hasInfluenceOver": false,
+            "haveInfluenceOver": false,
+            "locked": false
         }
 
         let influences = this.actor.getFlag(MasksPbtaSheets.MODULEID, "influences");
