@@ -1,11 +1,11 @@
 <form class="{{cssClass}}" autocomplete="off">
-
   <div class="sheet-wrapper">
-
     {{!-- Sheet Header --}}
     <header class="sheet-header">
       <div class="sheet-header__fields">
         <input class="input--title" name="name" type="text" value="{{actor.name}}" placeholder="Name" />
+        <input class="input--title" name="heroName.value" type="text" value="{{data.attrTop.heroName.value}}"
+          placeholder="{{data.attrTop.heroName.label}}" />
         <input class="input--title charplaybook" name="data.details.playbook" type="text"
           value="{{data.details.playbook}}" placeholder="Playbook" list="playbooks" />
         <datalist id="playbooks">
@@ -48,8 +48,54 @@
       </section>
 
       <section class="sheet-attributes-top">
-        {{> "systems/pbta/templates/parts/sheet-attributes.html" attrs=data.attrTop group="attrTop"
-        class="attributes-top" owner=owner editable=editable}}
+        <div class="cell cell--aesthetics">
+          <div class="cell cell--attributes-top">
+            <div class="cell cell--xp cell--Xp">
+              <label for="data.attrTop.xp.value" class="cell__title">Potential</label>
+              <div class="cell__clock">
+                {{#if data.attrTop.xp.steps}}
+                {{#each data.attrTop.xp.steps as |step stepKey|}}
+                <input type="radio" class="attr-xp" data-name="data.attrTop.xp.steps" data-step="{{stepKey}}" {{checked
+                  step}}>
+                {{/each}}
+                {{/if}}
+              </div>
+            </div>
+            <div class="cell cell--advances cell--Number">
+              <label for="data.attrTop.advances.value" class="cell__title">Advances</label>
+              <div class="cell__wrapper">
+                <button class="resource-control resource-decrease" data-action="decrease"
+                  data-attr="data.attrTop.advances.value">-</button>
+                <input type="number" name="data.attrTop.advances.value"
+                  value="{{numberFormat data.attrTop.advances.value decimals=0 sign=false}}" data-dtype="Number" />
+                <button class="resource-control resource-increase" data-action="increase"
+                  data-attr="data.attrTop.advances.value">+</button>
+              </div>
+            </div>
+            <div class="cell cell--forward">
+              <label class="cell__title">{{localize "PBTA.Forward"}}</label>
+              <div class="cell__wrapper">
+                <button class="resource-control resource-decrease" data-action="decrease"
+                  data-attr="resources.forward.value">-</button>
+                <input type="number" name="data.resources.forward.value"
+                  value="{{numberFormat data.resources.forward.value decimals=0 sign=false}}" data-dtype="Number" />
+                <button class="resource-control resource-increase" data-action="increase"
+                  data-attr="resources.forward.value">+</button>
+              </div>
+            </div>
+            <div class="cell cell--ongoing">
+              <label class="cell__title">{{localize "PBTA.Ongoing"}}</label>
+              <div class="cell__wrapper">
+                <button class="resource-control resource-decrease" data-action="decrease"
+                  data-attr="resources.ongoing.value">-</button>
+                <input type="number" name="data.resources.ongoing.value"
+                  value="{{numberFormat data.resources.ongoing.value decimals=0 sign=false}}" data-dtype="Number" />
+                <button class="resource-control resource-increase" data-action="increase"
+                  data-attr="resources.ongoing.value">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </section>
 
@@ -57,12 +103,27 @@
       {{!-- Sidebar --}}
       <section class="sheet-look">
         <div class="cell cell--aesthetics">
-          {{> "systems/pbta/templates/parts/sheet-attributes.html" attrs=data.attrLeft group="attrLeft"
-          class="attributes-left" owner=owner editable=editable}}
+          <div class="cell cell--attributes-left">
+            <div class="cell cell--conditions cell--ListMany">
+              <label for="data.attrLeft.conditions.value" class="cell__title">Conditions</label>
+              <ul class="cell__checkboxes flexcol">
+                {{#each data.attrLeft.conditions.options as |option optionKey|}}
+                <label>
+                  <input type="checkbox" class="attr-list"
+                    name="data.{{../../group}}.{{key}}.options.{{optionKey}}.value" {{checked option.value}} />
+                  {{option.label}}
+                </label>
+                {{/each}}
+              </ul>
+            </div>
+            <div class="cell cell--moment cell--LongText">
+              <label for="data.attrLeft.moment.value" class="cell__title">Moment of Truth</label>
+              <label><input type="checkbox" name="data.attrTop.momentUnlocked.value" {{checked data.attrTop.momentUnlocked.value}} /> Unlocked</label>
+              {{editor content=data.attrLeft.moment.value target="data.attrLeft.moment.value" button=true owner=owner
+              editable=editable}}
+            </div>
+          </div>
         </div>
-
-        {{!-- TODO: Re-enable the look toggle later --}}
-        {{!-- <button class="toggle toggle--look"><i class="fas fa-chevron-left"></i></button> --}}
       </section>
 
       {{!-- Main --}}
@@ -83,6 +144,11 @@
           <div class="tab description" data-group="primary" data-tab="description">
             <div class="sheet-tab">
               <div class="cell cell--bio">
+                <label class="cell__title">Appearance</label>
+                {{editor content=data.attrLeft.look.value target="data.attrLeft.look.value" button=true owner=owner
+                editable=editable}}
+              </div>
+              <div class="cell cell--bio">
                 <label class="cell__title">Origin</label>
                 {{editor content=data.details.origin target="data.details.origin" button=true owner=owner
                 editable=editable}}
@@ -93,7 +159,7 @@
                 editable=editable}}
               </div>
               <div class="cell cell--bio">
-                <label class="cell__title">Description of Powers</label>
+                <label class="cell__title">Abilities and Description of Powers</label>
                 {{editor content=data.details.powers target="data.details.powers" button=true owner=owner
                 editable=editable}}
               </div>
@@ -109,40 +175,6 @@
                 <div class="cell__title warning small-text">Moves cannot be rearranged while this token is not linked to
                   an actor.</div>
                 {{/if}}
-              </section>
-
-              <section class="sheet-resources">
-                <div class="cell cell--roll-formula">
-                  <label class="cell__title">{{localize "PBTA.RollFormulaOverride"}}</label>
-                  <div class="cell__wrapper">
-                    <input type="text" name="data.resources.rollFormula.value"
-                      value="{{data.resources.rollFormula.value}}" placeholder="ex: 3d6kh2" />
-                  </div>
-                </div>
-
-                <div class="cell cell--forward">
-                  <label class="cell__title">{{localize "PBTA.Forward"}}</label>
-                  <div class="cell__wrapper">
-                    <button class="resource-control resource-decrease" data-action="decrease"
-                      data-attr="resources.forward.value">-</button>
-                    <input type="number" name="data.resources.forward.value"
-                      value="{{numberFormat data.resources.forward.value decimals=0 sign=false}}" data-dtype="Number" />
-                    <button class="resource-control resource-increase" data-action="increase"
-                      data-attr="resources.forward.value">+</button>
-                  </div>
-                </div>
-
-                <div class="cell cell--ongoing">
-                  <label class="cell__title">{{localize "PBTA.Ongoing"}}</label>
-                  <div class="cell__wrapper">
-                    <button class="resource-control resource-decrease" data-action="decrease"
-                      data-attr="resources.ongoing.value">-</button>
-                    <input type="number" name="data.resources.ongoing.value"
-                      value="{{numberFormat data.resources.ongoing.value decimals=0 sign=false}}" data-dtype="Number" />
-                    <button class="resource-control resource-increase" data-action="increase"
-                      data-attr="resources.ongoing.value">+</button>
-                  </div>
-                </div>
               </section>
 
               {{#each moves as |moveGroup moveKey|}}
@@ -229,11 +261,10 @@
           <div class="tab influences" data-group="primary" data-tab="influences">
             <div class="cell cell--group cell--influences">
               <h2 class="cell__title">
-                <label class="item-group-label">{{localize "MASKS-SHEETS.Influences"}}<span
-                    class="item-details-toggle"><i class="fas fa-chevron-up"></i></span></label>
+                <label class="item-group-label">{{localize "MASKS-SHEETS.Influences"}}</label>
                 <div class="item-controls">
-                  <button type="button" class="influence-control influence-create" title='{{localize "MASKS-SHEETS.InfluenceCreate"}}'
-                    data-type="influence">
+                  <button type="button" class="influence-control influence-create"
+                    title='{{localize "MASKS-SHEETS.InfluenceCreate"}}' data-type="influence">
                     <i class="fas fa-plus"></i>
                   </button>
                 </div>
@@ -241,16 +272,16 @@
               <ol class="items-list">
                 {{#each influences}}
                 <li class="item flexrow" data-influence-id="{{id}}">
-                  <img class="influence-icon" src="modules/masks-newgeneration-unofficial/images/gameicons/shadow-follower-%23ffffff-%233da7db.svg" width="27" height="27" />
-                  <div>
+                  <div class="influence-name">
+                    <img class="influence-icon" src="modules/masks-newgeneration-unofficial/images/gameicons/shadow-follower-%23ffffff-%233da7db.svg" />
                     <input type="text" class="influence--name" value="{{name}}" />
                   </div>
-                  <div>
+                  <div class="influence-active">
                     <label>
                       <input type="checkbox" {{checked active}} /> Active?</label>
                   </div>
-                  <div class="item-controls">
-                    <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                  <div class="influence-controls">
+                    <a class="influence-control influence-delete" title="Delete Influence"><i class="fas fa-trash"></i></a>
                   </div>
                 </li>
                 {{/each}}

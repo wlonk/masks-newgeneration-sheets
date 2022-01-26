@@ -9,7 +9,9 @@ export class MasksPbtASheet extends PbtaActorSheet {
     }
 
     static get defaultOptions() {
-        let options = {};
+        let options = {
+            classes: ["pbta", "sheet", "actor", "masks"]
+        };
         return mergeObject(super.defaultOptions, options);
     }
 
@@ -78,7 +80,5 @@ export class MasksPbtASheet extends PbtaActorSheet {
 
         influence.active = false;
         await this.actor.setFlag(MasksPbtaSheets.MODULEID, "influences", influences);
-
-
     }
 }
