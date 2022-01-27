@@ -30,6 +30,18 @@ export class MasksPbtASheet extends PbtaActorSheet {
         html.find('.influence-create').on('click', this._onInfluenceCreate.bind(this));
         html.find('.influence--name').on('change', this._onInfluenceEdit.bind(this));
         html.find('[data-influence-action]').on('click', this._onInfluenceAction.bind(this));
+        html.find('.resource-masks').on('click', this._onResourcesClick.bind(this));
+    }
+
+    async _onResourcesClick(event) {
+        const clickedElement = $(event.currentTarget);
+        const action = clickedElement.data().action;
+        const attr = clickedElement.data().attr;
+
+        let updateValue = getProperty(this.actor.data, attr);
+        if (action === 'increase') { updateValue++; } else { updateValue--; }
+
+        await this.actor.update({[attr]: updateValue});
     }
 
     async _onInfluenceCreate(event) {
@@ -37,7 +49,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
 
         let item = {
             "id": foundry.utils.randomID(),
-            "name": "Person Name",
+            "name": "",
             "hasInfluenceOver": false,
             "haveInfluenceOver": false,
             "locked": false

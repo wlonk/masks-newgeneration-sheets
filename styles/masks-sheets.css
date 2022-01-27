@@ -11,10 +11,10 @@
 .pbta.sheet.masks .sheet-wrapper .sheet-bottom .cell.cell--bio .editor { min-height: calc(100% - 40px); }
 
 .pbta.sheet.masks .cell__wrapper { position: relative; width: 100%; }
-.pbta.sheet.masks .cell__wrapper > button.resource-control { position: absolute; top: 0; bottom: 0; width: 16px; height: 16px; padding: 0; line-height: 1; text-align: center; margin: auto; border: 1px solid #bcc8de; }
-.pbta.sheet.masks .cell__wrapper > button.resource-control.resource-decrease { left: 5px; }
+.pbta.sheet.masks .cell__wrapper > button.resource-masks { position: absolute; top: 0; bottom: 0; width: 16px; height: 16px; padding: 0; line-height: 1; text-align: center; margin: auto; border: 1px solid #bcc8de; }
+.pbta.sheet.masks .cell__wrapper > button.resource-masks.resource-decrease { left: 5px; }
 .pbta.sheet.masks .cell__wrapper > input[type="number"] { font-size: 18px; text-align: center; background-color: rgba(0,0,0,0.05); margin: 0; display: block; width: 100%; }
-.pbta.sheet.masks .cell__wrapper > button.resource-control.resource-increase { right: 5px; }
+.pbta.sheet.masks .cell__wrapper > button.resource-masks.resource-increase { right: 5px; }
 
 .pbta.sheet.masks .influences .influence-name { flex: 4; }
 .pbta.sheet.masks .influences input.influence--name { width: calc(100% - 36px); font-size: 18px; text-align: left; height: 32px; margin: 0px 0px 8px 0px; }

@@ -58,7 +58,7 @@
               <div class="cell__clock">
                 {{#if data.attrTop.xp.steps}}
                 {{#each data.attrTop.xp.steps as |step stepKey|}}
-                <input type="radio" class="attr-xp" data-name="data.attrTop.xp.steps" data-step="{{stepKey}}" {{checked
+                <input type="radio" class="attr-xp" data-name="data.attrTop.xp" data-step="{{stepKey}}" {{checked
                   step}}>
                 {{/each}}
                 {{/if}}
@@ -67,34 +67,34 @@
             <div class="cell cell--advances cell--Number">
               <label for="data.attrTop.advances.value" class="cell__title">Advances</label>
               <div class="cell__wrapper">
-                <button class="resource-control resource-decrease" data-action="decrease"
+                <button class="resource-masks resource-decrease" data-action="decrease"
                   data-attr="data.attrTop.advances.value">-</button>
                 <input type="number" name="data.attrTop.advances.value"
                   value="{{numberFormat data.attrTop.advances.value decimals=0 sign=false}}" data-dtype="Number" />
-                <button class="resource-control resource-increase" data-action="increase"
+                <button class="resource-masks resource-increase" data-action="increase"
                   data-attr="data.attrTop.advances.value">+</button>
               </div>
             </div>
             <div class="cell cell--forward">
               <label class="cell__title">{{localize "PBTA.Forward"}}</label>
               <div class="cell__wrapper">
-                <button class="resource-control resource-decrease" data-action="decrease"
-                  data-attr="resources.forward.value">-</button>
+                <button class="resource-masks resource-decrease" data-action="decrease"
+                  data-attr="data.resources.forward.value">-</button>
                 <input type="number" name="data.resources.forward.value"
                   value="{{numberFormat data.resources.forward.value decimals=0 sign=false}}" data-dtype="Number" />
-                <button class="resource-control resource-increase" data-action="increase"
-                  data-attr="resources.forward.value">+</button>
+                <button class="resource-masks resource-increase" data-action="increase"
+                  data-attr="data.resources.forward.value">+</button>
               </div>
             </div>
             <div class="cell cell--ongoing">
               <label class="cell__title">{{localize "PBTA.Ongoing"}}</label>
               <div class="cell__wrapper">
-                <button class="resource-control resource-decrease" data-action="decrease"
-                  data-attr="resources.ongoing.value">-</button>
+                <button class="resource-masks resource-decrease" data-action="decrease"
+                  data-attr="data.resources.ongoing.value">-</button>
                 <input type="number" name="data.resources.ongoing.value"
                   value="{{numberFormat data.resources.ongoing.value decimals=0 sign=false}}" data-dtype="Number" />
-                <button class="resource-control resource-increase" data-action="increase"
-                  data-attr="resources.ongoing.value">+</button>
+                <button class="resource-masks resource-increase" data-action="increase"
+                  data-attr="data.resources.ongoing.value">+</button>
               </div>
             </div>
           </div>
@@ -113,7 +113,7 @@
                 {{#each data.attrLeft.conditions.options as |option optionKey|}}
                 <label>
                   <input type="checkbox" class="attr-list"
-                    name="data.{{../../group}}.{{key}}.options.{{optionKey}}.value" {{checked option.value}} />
+                    name="data.attrLeft.conditions.options.{{optionKey}}.value" {{checked option.value}} />
                   {{option.label}}
                 </label>
                 {{/each}}
@@ -282,7 +282,7 @@
                 <li class="item flexrow" data-influence-id="{{id}}">
                   <div class="influence-name">
                     <img class="influence-icon" data-influence-action="roll" src="modules/masks-newgeneration-unofficial/images/gameicons/shadow-follower-%23ffffff-%233da7db.svg" />
-                    <input type="text" class="influence--name" value="{{name}}" />
+                    <input type="text" class="influence--name" value="{{name}}" placeholder="Person's Name" />
                   </div>
                   <div class="influence-management">
                     <img class="influence-icon {{#unless hasInfluenceOver}}influence-disabled{{/unless}}" data-influence-action="hasInfluenceOver" src="modules/masks-newgeneration-unofficial/images/gameicons/team-downgrade-%23ffffff-%233da7db.svg" title="Has Influence Over You" />
