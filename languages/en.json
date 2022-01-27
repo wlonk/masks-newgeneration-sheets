@@ -1,6 +1,15 @@
 {
     "MASKS-SHEETS": {
+        "Cancel": "Cancel",
+        "Create-Custom-Resource": "Create Custom Resource",
+        "CUSTOM-RESOURCES": {
+            "Numeric": "Numeric",
+            "Text": "Text",
+            "Toggle": "Toggle",
+            "Tracker": "Tracker"
+        },
+        "InfluenceCreate": "Create Influence",
         "Influences": "Influences",
-        "InfluenceCreate": "Create Influence"
+        "Submit": "Submit"
     }
 }

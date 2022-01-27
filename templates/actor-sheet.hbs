@@ -215,10 +215,24 @@
           <div class="tab equipment" data-group="primary" data-tab="equipment">
             <section class="sheet-notifications" style="margin-top:10px;">
               {{#if data.isToken}}
-              <div class="cell__title warning small-text">Equipment cannot be rearranged while this token is not
+              <div class="cell__title warning small-text">Resources cannot be rearranged while this token is not
                 linked to an actor.</div>
               {{/if}}
             </section>
+            <div class="cell cell--custom cell--group">
+              <h2 class="cell__title">
+                <label class="item-group-label">Custom Resources<span
+                    class="item-details-toggle"><i class="fas fa-chevron-up"></i></span></label>
+                <div class="item-controls">
+                  <button type="button" class="item-control custom-create" title='Create Resource'
+                    data-type="customResource">
+                    <i class="fas fa-plus"></i>
+                  </button>
+              </h2>
+              <div class="items-list masks-custom-list">
+                
+              </div>
+            </div>
             {{#each equipment as |equipmentGroup equipmentKey|}}
             <div class="cell cell--equipment cell--group cell--{{equipmentKey}}">
               <h2 class="cell__title">
@@ -269,7 +283,8 @@
           <div class="tab influences" data-group="primary" data-tab="influences">
             <div class="cell cell--group cell--influences">
               <h2 class="cell__title">
-                <label class="item-group-label">{{localize "MASKS-SHEETS.Influences"}}</label>
+                <label class="item-group-label">{{localize "MASKS-SHEETS.Influences"}}<span
+                    class="item-details-toggle"><i class="fas fa-chevron-up"></i></span></label>
                 <div class="item-controls">
                   <button type="button" class="influence-control influence-create"
                     title='{{localize "MASKS-SHEETS.InfluenceCreate"}}' data-type="influence">

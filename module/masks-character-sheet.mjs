@@ -1,6 +1,7 @@
 import { PbtaActorSheet } from "../../../systems/pbta/module/actor/actor-sheet.js";
 import { PbtaRolls } from "../../../systems/pbta/module/rolls.js";
 import { MasksPbtaSheets } from "./masks-sheets.mjs";
+import { MasksCustomResourceDialog } from "./masks-custom-resource-dialog.mjs";
 
 export class MasksPbtASheet extends PbtaActorSheet {
     get template() {
@@ -31,6 +32,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
         html.find('.influence--name').on('change', this._onInfluenceEdit.bind(this));
         html.find('[data-influence-action]').on('click', this._onInfluenceAction.bind(this));
         html.find('.resource-masks').on('click', this._onResourcesClick.bind(this));
+        html.find('.custom-create').on('click', this._onCustomResourceCreate.bind(this));
     }
 
     async _onResourcesClick(event) {
@@ -117,5 +119,13 @@ export class MasksPbtASheet extends PbtaActorSheet {
         }
 
         await this.actor.setFlag(MasksPbtaSheets.MODULEID, "influences", influences);
+    }
+
+    async _onCustomResourceCreate(event) {
+        event.preventDefault();
+        
+        //Popup for custom resource defintion.  Requires a NAME (unique) and TYPE, which defines how it looks.
+        let dialog = new MasksCustomResourceDialog(this.actor);
+        dialog.render(true);
     }
 }

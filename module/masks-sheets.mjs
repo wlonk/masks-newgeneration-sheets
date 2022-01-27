@@ -10,8 +10,18 @@ Hooks.once("init", () => {
         types: ["character"],
         makeDefault: true
     });
+
+    return MasksPbtaSheets.preloadHandlebarTemplates();
 });
 
 export class MasksPbtaSheets {
     static MODULEID="masks-newgeneration-sheets";
+    static async preloadHandlebarTemplates() {
+        const templates = [
+            'modules/masks-newgeneration-sheets/templates/actor-sheet.hbs',
+            'modules/masks-newgeneration-sheets/templates/masks-custom-resource-dialog.hbs'
+        ];
+
+        return loadTemplates(templates);
+    }
 }
