@@ -1,0 +1,28 @@
+{{#each items as |custom customKey|}}
+<div class="masks-custom-resource masks-custom-{{custom.resourceType}}">
+    <h2>{{custom.name}}<a class="custom-resource-control custom-delete" title="Delete Resource"><i class="fas fa-trash"></i></a></h2>
+    {{#if (eq custom.resourceType "tracker")}}
+    <div class="cell__clock">
+        {{#each custom.steps as |step stepKey|}}
+        <input type="radio" class="attr-xp" data-name="{{custom.attrName}}" data-step="{{stepKey}}" {{checked step}}>
+        {{/each}}
+    </div>
+    {{/if}}
+    {{#if (eq custom.resourceType "toggle")}}
+    <div><input type="checkbox" name="{{attrValue}}" {{checked custom.value}} /></div>
+    {{/if}}
+    {{#if (eq custom.resourceType "text")}}
+    {{editor content=custom.value target=custom.attrValue button=true owner=../owner editable=../editable}}
+    {{/if}}
+    {{#if (eq custom.resourceType "numeric")}}
+    <div class="cell__wrapper">
+        <button class="resource-masks resource-decrease" data-action="decrease" data-attr="{{custom.attrValue}}">-</button>
+                <input type="number" name="{{custom.attrValue}}"
+                  value="{{numberFormat custom.value decimals=0 sign=false}}" data-dtype="Number" />
+                <button class="resource-masks resource-increase" data-action="increase"
+                  data-attr="{{custom.attrValue}}">+</button>
+              </div>
+
+    {{/if}}
+</div>
+{{/each}}

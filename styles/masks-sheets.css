@@ -27,3 +27,11 @@
 .pbta.sheet.masks .influences img.influence-icon { flex: 1; vertical-align: top; border: 0; height: 32px; width: 32px; padding: 0; margin: 0; border-radius: 0; cursor: pointer; }
 .pbta.sheet.masks .influences .influence-management .influence-control.influence-delete, .pbta.sheet.masks .influences .influence-management .influence-control.influence-lock, .pbta.sheet.masks .influences .influence-management .influence-control.influence-unlock { font-size: 28px; flex: 1; }
 .pbta.sheet.masks .influences .influence-management .influence-disabled { filter: grayscale(1); }
+
+.pbta.sheet.masks .masks-custom-list { display: flex; flex-wrap: wrap; align-items: baseline; }
+.pbta.sheet.masks .masks-custom-resource { background-color: skyblue; border-radius: 5px; padding: 6px; margin: 4px; }
+.pbta.sheet.masks .masks-custom-resource .custom-resource-control { float: right; padding-left: 8px; }
+.pbta.sheet.masks .masks-custom-resource.masks-custom-text { min-height: 200px; }
+.pbta.sheet.masks .masks-custom-resource.masks-custom-toggle div { width: 100%; text-align: center; }
+.pbta.sheet.masks .masks-custom-resource.masks-custom-text .editor { min-height: 100px; }
+.pbta.sheet.masks .masks-custom-resource.masks-custom-text .editor .tox-editor-container { min-height: 200px; height: 100% !important; }

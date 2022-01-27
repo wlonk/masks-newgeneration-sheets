@@ -21,6 +21,13 @@ export class MasksPbtASheet extends PbtaActorSheet {
 
         data.influences = this.actor.getFlag(MasksPbtaSheets.MODULEID, "influences");
         if (!data.influences) { this.actor.setFlag(MasksPbtaSheets.MODULEID, "influences", []); data.influences = []; }
+        data.customResources = this.actor.data.data.resources.custom;
+        if (data.customResources) {
+            for (let [key, val] of Object.entries(data.customResources)) {
+                data.customResources[key].attrName = `data.resources.custom.${key}`;
+                data.customResources[key].attrValue = `data.resources.custom.${key}.value`;
+            }
+        }
 
         return data;
     }

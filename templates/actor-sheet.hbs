@@ -230,7 +230,7 @@
                   </button>
               </h2>
               <div class="items-list masks-custom-list">
-                
+                {{> "modules/masks-newgeneration-sheets/templates/partials/custom-resource-partial.hbs" items=customResources owner=owner editable=editable}}
               </div>
             </div>
             {{#each equipment as |equipmentGroup equipmentKey|}}

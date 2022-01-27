@@ -58,8 +58,6 @@ export class MasksCustomResourceDialog extends FormApplication {
 
         this.showResourceLimit = (this.resourceType === "tracker" || this.resourceType === "numeric");
 
-        console.log(this);
-
         this.render(false);
     }
 
@@ -82,8 +80,6 @@ export class MasksCustomResourceDialog extends FormApplication {
     async validateSubmission() {
         let validName = false;
 
-        console.log(this);
-
         this.resourceName = this.resourceName.trim();
 
         if (!this.actor.data.data.resources.custom) {
@@ -100,7 +96,14 @@ export class MasksCustomResourceDialog extends FormApplication {
         }
 
         let defaultValue = null;
+        let steps = null;
+
         switch (this.resourceType) {
+            case "tracker":
+                defaultValue = 0;
+                steps = [];
+                for (let i = 0; i < this.resourceLimit; i++) { steps.push(false); }
+                break;
             case "text":
                 defaultValue = "";
                 break;
@@ -112,11 +115,14 @@ export class MasksCustomResourceDialog extends FormApplication {
         }
 
         let newResource = {
+            name: this.resourceName,
             resourceType: this.resourceType,
+            max: this.resourceLimit,
+            steps: steps,
             value: defaultValue
         }
 
-        this.actor.data.data.resources.custom[this.resourceName] = newResource;
+        this.actor.data.data.resources.custom[foundry.utils.randomID()] = newResource;
 
         await this.actor.update({"data.resources.custom": this.actor.data.data.resources.custom});
 
