@@ -1,18 +1,27 @@
 export class MasksCustomResourceDialog extends FormApplication {
-    constructor (object, options) {
+    constructor(object, options) {
         super(object, options);
 
-        this.actor = object;
+        this.actor = object?.actor;
+        this.resourceID = object?.id;
+
         this.resourceName = "";
         this.resourceType = "tracker";
         this.resourceLimit = 5;
-        this.showResourceLimit = true;
         this.resourceTypes = {
             "tracker": "MASKS-SHEETS.CUSTOM-RESOURCES.Tracker",
             "numeric": "MASKS-SHEETS.CUSTOM-RESOURCES.Numeric",
             "text": "MASKS-SHEETS.CUSTOM-RESOURCES.Text",
             "toggle": "MASKS-SHEETS.CUSTOM-RESOURCES.Toggle"
         }
+
+        if (this.resourceID) {
+            this.resourceName = this.actor.data.data.resources.custom[this.resourceID].name;
+            this.resourceLimit = this.actor.data.data.resources.custom[this.resourceID].max;
+            this.resourceType = this.actor.data.data.resources.custom[this.resourceID].resourceType;
+        }
+
+        this.showResourceLimit = (this.resourceType === "tracker" || this.resourceType === "numeric");
     }
 
     static get defaultOptions() {
@@ -43,20 +52,23 @@ export class MasksCustomResourceDialog extends FormApplication {
             resourceTypes: this.resourceTypes,
             resourceLimit: this.resourceLimit,
             resourceType: this.resourceType,
-            showResourceLimit: this.showResourceLimit
+            showResourceLimit: this.showResourceLimit,
+            disabled: this.resourceID !== null
         }
     }
 
     async _updateObject(event, formData) {
-        this.resourceName = formData["custom-resource-name"];
-        this.resourceType = formData["custom-resource-type"];
-        this.resourceLimit = formData["custom-resource-limit"];
+        if (formData["custom-resource-name"]) { this.resourceName = formData["custom-resource-name"]; }
+        if (formData["custom-resource-type"]) { this.resourceType = formData["custom-resource-type"]; }
+        if (formData["custom-resource-limit"]) { this.resourceLimit = formData["custom-resource-limit"]; }
 
         if (this.resourceType === "tracker" && this.resourceLimit === 0) {
             this.resourceLimit = 5;
         }
 
         this.showResourceLimit = (this.resourceType === "tracker" || this.resourceType === "numeric");
+
+        console.log(this);
 
         this.render(false);
     }
@@ -86,32 +98,44 @@ export class MasksCustomResourceDialog extends FormApplication {
             this.actor.data.data.resources.custom = {};
         }
 
-        let existingResource = Object.keys(this.actor.data.data.resources.custom);
-
-        validName = (this.resourceName.length > 0 && !existingResource.find(c => c === this.resourceName));
+        validName = this.resourceName.length > 0;
 
         if (!validName) {
-            ui.notifications.warn("Custom Resource Name is required and must be unique.");
+            ui.notifications.warn("Custom Resource Name is required.");
             return;
         }
 
         let defaultValue = null;
         let steps = null;
+        let customID = this.resourceID ?? foundry.utils.randomID();
 
-        switch (this.resourceType) {
-            case "tracker":
-                defaultValue = 0;
+        if (!this.resourceID) {
+            switch (this.resourceType) {
+                case "tracker":
+                    defaultValue = 0;
+                    steps = [];
+                    for (let i = 0; i < this.resourceLimit; i++) { steps.push(false); }
+                    break;
+                case "text":
+                    defaultValue = "";
+                    break;
+                case "toggle":
+                    defaultValue = false;
+                    break;
+                default:
+                    defaultValue = 0;
+            }
+        } else {
+            defaultValue = this.actor.data.data.resources.custom[this.resourceID].value;
+            let currentSteps = this.actor.data.data.resources.custom[this.resourceID].steps;
+            if (this.resourceLimit != currentSteps.length) {
                 steps = [];
-                for (let i = 0; i < this.resourceLimit; i++) { steps.push(false); }
-                break;
-            case "text":
-                defaultValue = "";
-                break;
-            case "toggle":
-                defaultValue = false;
-                break;
-            default:
-                defaultValue = 0;
+                for (let i = 0; i < this.resourceLimit; i++) {
+                    steps.push(i < currentSteps.length ? currentSteps[i] : false);
+                }
+            } else {
+                steps = this.actor.data.data.resources.custom[this.resourceID].steps;
+            }
         }
 
         let newResource = {
@@ -122,9 +146,9 @@ export class MasksCustomResourceDialog extends FormApplication {
             value: defaultValue
         }
 
-        this.actor.data.data.resources.custom[foundry.utils.randomID()] = newResource;
+        this.actor.data.data.resources.custom[customID] = newResource;
 
-        await this.actor.update({"data.resources.custom": this.actor.data.data.resources.custom});
+        await this.actor.update({ "data.resources.custom": this.actor.data.data.resources.custom });
 
         this.close();
     }

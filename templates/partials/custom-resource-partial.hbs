@@ -1,6 +1,11 @@
 {{#each items as |custom customKey|}}
-<div class="masks-custom-resource masks-custom-{{custom.resourceType}}">
-    <h2>{{custom.name}}<a class="custom-resource-control custom-delete" title="Delete Resource"><i class="fas fa-trash"></i></a></h2>
+<div class="masks-custom-resource masks-custom-{{custom.resourceType}}" data-id="{{customKey}}">
+    <h2>{{custom.name}}
+        <span class="custom-resource-control">
+            <a class="custom-control" data-action="edit" title="Edit Resource"><i class="fas fa-edit"></i></a>
+            <a class="custom-control" data-action="delete" title="Delete Resource"><i class="fas fa-trash"></i></a>
+        </span>
+    </h2>
     {{#if (eq custom.resourceType "tracker")}}
     <div class="cell__clock">
         {{#each custom.steps as |step stepKey|}}
@@ -17,12 +22,11 @@
     {{#if (eq custom.resourceType "numeric")}}
     <div class="cell__wrapper">
         <button class="resource-masks resource-decrease" data-action="decrease" data-attr="{{custom.attrValue}}">-</button>
-                <input type="number" name="{{custom.attrValue}}"
+        <input type="number" name="{{custom.attrValue}}"
                   value="{{numberFormat custom.value decimals=0 sign=false}}" data-dtype="Number" />
-                <button class="resource-masks resource-increase" data-action="increase"
+        <button class="resource-masks resource-increase" data-action="increase"
                   data-attr="{{custom.attrValue}}">+</button>
-              </div>
-
+    </div>
     {{/if}}
 </div>
 {{/each}}

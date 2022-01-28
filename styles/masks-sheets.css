@@ -31,7 +31,11 @@
 .pbta.sheet.masks .masks-custom-list { display: flex; flex-wrap: wrap; align-items: baseline; }
 .pbta.sheet.masks .masks-custom-resource { background-color: skyblue; border-radius: 5px; padding: 6px; margin: 4px; }
 .pbta.sheet.masks .masks-custom-resource .custom-resource-control { float: right; padding-left: 8px; }
-.pbta.sheet.masks .masks-custom-resource.masks-custom-text { min-height: 200px; }
+.pbta.sheet.masks .masks-custom-resource .custom-resource-control a.custom-control { padding-left: 8px; }
+.pbta.sheet.masks .masks-custom-resource.masks-custom-text { min-height: 200px; min-width: 250px; }
 .pbta.sheet.masks .masks-custom-resource.masks-custom-toggle div { width: 100%; text-align: center; }
 .pbta.sheet.masks .masks-custom-resource.masks-custom-text .editor { min-height: 100px; }
 .pbta.sheet.masks .masks-custom-resource.masks-custom-text .editor .tox-editor-container { min-height: 200px; height: 100% !important; }
+
+/** Custom Styling **/
+.pbta.sheet.masks .cell__title { font-style: italic; padding-left: 15px; background-image: url('/modules/masks-newgeneration-sheets/assets/sidebar.svg'); background-position: left top; background-repeat: no-repeat; background-size: contain; }

@@ -4,7 +4,7 @@
         <input type="text" name="custom-resource-name" value="{{resourceName}}" />
         <hr />
         <h3>Resource Type
-            <select name="custom-resource-type">
+            <select name="custom-resource-type" {{disabled disabled}}>
                 {{selectOptions resourceTypes selected=resourceType localize=true}}
             </select>
         </h3>

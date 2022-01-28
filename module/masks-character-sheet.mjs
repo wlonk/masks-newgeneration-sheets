@@ -39,18 +39,22 @@ export class MasksPbtASheet extends PbtaActorSheet {
         html.find('.influence--name').on('change', this._onInfluenceEdit.bind(this));
         html.find('[data-influence-action]').on('click', this._onInfluenceAction.bind(this));
         html.find('.resource-masks').on('click', this._onResourcesClick.bind(this));
-        html.find('.custom-create').on('click', this._onCustomResourceCreate.bind(this));
+        html.find(".custom-control").on('click', this._onCustomResourceAction.bind(this));
     }
 
     async _onResourcesClick(event) {
         const clickedElement = $(event.currentTarget);
         const action = clickedElement.data().action;
-        const attr = clickedElement.data().attr;
+        const attrValue = clickedElement.data().attr;
+        const attrMax = attrValue.replace(".value", ".max");
+        const max = getProperty(this.actor.data, attrMax);
 
-        let updateValue = getProperty(this.actor.data, attr);
+        let updateValue = getProperty(this.actor.data, attrValue);
         if (action === 'increase') { updateValue++; } else { updateValue--; }
 
-        await this.actor.update({[attr]: updateValue});
+        if (max && max !== 0 && updateValue > max) { updateValue = max; }
+
+        await this.actor.update({[attrValue]: updateValue});
     }
 
     async _onInfluenceCreate(event) {
@@ -128,11 +132,45 @@ export class MasksPbtASheet extends PbtaActorSheet {
         await this.actor.setFlag(MasksPbtaSheets.MODULEID, "influences", influences);
     }
 
-    async _onCustomResourceCreate(event) {
+    async _onCustomResourceAction(event) {
         event.preventDefault();
-        
-        //Popup for custom resource defintion.  Requires a NAME (unique) and TYPE, which defines how it looks.
-        let dialog = new MasksCustomResourceDialog(this.actor);
-        dialog.render(true);
+        const clickedElement = $(event.currentTarget);
+        const action = clickedElement.data().action;
+        const id = clickedElement.parents('[data-id]')?.data()?.id;
+        let dialog = null;
+
+        switch (action) {
+            case "create":
+                dialog = new MasksCustomResourceDialog({actor: this.actor, id: null});
+                dialog.render(true);
+                break;
+            case "edit":
+                dialog = new MasksCustomResourceDialog({actor: this.actor, id: id});
+                dialog.render(true);
+                break;
+            case "delete":
+                let resourceName = this.actor.data.data.resources.custom[id].name;
+                dialog = new Dialog({
+                    title: `Confirm Resource Deletion`,
+                    content: `Please confirm that you wisht to delete ${resourceName}!`,
+                    buttons: {
+                        yes: {
+                            label: "Confirm",
+                            callback: async (html) => {
+                                let propName = `data.resources.custom.-=${id}`;
+                                await this.actor.update({[propName]: null});
+                            }
+                        },
+                        no: {
+                            icon: "<i class='fas fa-times'></i>",
+                            label: 'Cancel'
+                        }
+                    },
+                    default: "yes"
+                }).render(true);
+                break;
+            default:
+                break;
+        }
     }
 }
