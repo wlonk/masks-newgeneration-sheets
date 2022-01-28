@@ -1,26 +1,26 @@
 <form>
     <div>
-        <h3>Resource Name:</h3>
+        <h3>{{localize "MASKS-SHEETS.DIALOG.Name"}}</h3>
         <input type="text" name="custom-resource-name" value="{{resourceName}}" />
         <hr />
-        <h3>Resource Type
+        <h3>{{localize "MASKS-SHEETS.DIALOG.Type"}}
             <select name="custom-resource-type" {{disabled disabled}}>
                 {{selectOptions resourceTypes selected=resourceType localize=true}}
             </select>
         </h3>
         {{#if showResourceLimit }}
         <hr />
-        <h3>Limit</h3>
-        <label>For tracker/numeric resource types.  A tracker must have a value > 1, and a setting of 0 for numeric means no limit.</label>
+        <h3>{{localize "MASKS-SHEETS.DIALOG.Limit"}}</h3>
+        <label>{{localize "MASKS-SHEETS.DIALOG.Limit-Hint"}}</label>
         <input type="number" name="custom-resource-limit" value="{{resourceLimit}}" />
         {{/if}}
     </div>
     <footer class="flexrow">
         <button type="button" name="cancel" data-action="cancel" alt="{{localize " MASKS-SHEETS.Cancel"}}"
-            title="{{localize " MASKS-SHEETS.Cancel"}}"><i class="far fa-times-circle"></i>{{localize
+            title="{{localize "MASKS-SHEETS.Cancel"}}"><i class="far fa-times-circle"></i>{{localize
             "MASKS-SHEETS.Cancel"}}</button>
         <button type="button" name="submit" data-action="submit" alt="{{localize " MASKS-SHEETS.Submit"}}"
-            title="{{localize " MASKS-SHEETS.Submit"}}"><i class="fas fa-check"></i>{{localize
+            title="{{localize "MASKS-SHEETS.Submit"}}"><i class="fas fa-check"></i>{{localize
             "MASKS-SHEETS.Submit"}}</button>
     </footer>
 </form>

@@ -16,9 +16,9 @@
 .pbta.sheet.masks .sheet-wrapper .sheet-bottom .cell.cell--bio .editor { min-height: calc(100% - 40px); }
 
 .pbta.sheet.masks .cell__wrapper { position: relative; width: 100%; }
-.pbta.sheet.masks .cell__wrapper > button.resource-masks { position: absolute; top: 0; bottom: 0; width: 16px; height: 16px; padding: 0; line-height: 1; text-align: center; margin: auto; border: 1px solid #bcc8de; }
+.pbta.sheet.masks .cell__wrapper > button.resource-masks { position: absolute; top: 0; bottom: 0; width: 20px; height: 20px; font-size: 16px; font-weight: bold; padding: 0; line-height: 1; text-align: center; margin: auto; border: 1px solid #bcc8de; }
 .pbta.sheet.masks .cell__wrapper > button.resource-masks.resource-decrease { left: 5px; }
-.pbta.sheet.masks .cell__wrapper > input[type="number"] { font-size: 18px; text-align: center; background-color: rgba(0,0,0,0.05); margin: 0; display: block; width: 100%; }
+.pbta.sheet.masks .cell__wrapper > input[type="number"] { font-size: 18px; text-align: center; background-color: rgba(0,0,0,0.1); font-weight: bold; margin: 0; display: block; width: 100%; }
 .pbta.sheet.masks .cell__wrapper > button.resource-masks.resource-increase { right: 5px; }
 
 .pbta.sheet.masks .influences .influence-name { flex: 4; }
@@ -29,7 +29,8 @@
 .pbta.sheet.masks .influences .influence-management .influence-disabled { filter: grayscale(1); }
 
 .pbta.sheet.masks .masks-custom-list { display: flex; flex-wrap: wrap; align-items: baseline; }
-.pbta.sheet.masks .masks-custom-resource { background-color: skyblue; border-radius: 5px; padding: 6px; margin: 4px; }
+.pbta.sheet.masks .masks-custom-resource { background-color: #4878a8; border: 1px solid rgba(0,0,0,0.5); border-radius: 5px; padding: 6px; margin: 4px; }
+.pbta.sheet.masks .masks-custom-resource > h2 { margin-top: 4px; }
 .pbta.sheet.masks .masks-custom-resource .custom-resource-control { float: right; padding-left: 8px; }
 .pbta.sheet.masks .masks-custom-resource .custom-resource-control a.custom-control { padding-left: 8px; }
 .pbta.sheet.masks .masks-custom-resource.masks-custom-text { min-height: 200px; min-width: 250px; }
@@ -38,4 +39,11 @@
 .pbta.sheet.masks .masks-custom-resource.masks-custom-text .editor .tox-editor-container { min-height: 200px; height: 100% !important; }
 
 /** Custom Styling **/
-.pbta.sheet.masks .cell__title { font-style: italic; padding-left: 15px; background-image: url('/modules/masks-newgeneration-sheets/assets/sidebar.svg'); background-position: left top; background-repeat: no-repeat; background-size: contain; }
+.pbta.sheet.actor.masks .window-content { background-image: linear-gradient(to bottom, #1e528e 0%, #728a7c 80%, #e9ce5d 100%); }
+.pbta.sheet.actor.masks .window-content > form::before { background-image: url('/modules/masks-newgeneration-sheets/assets/skyline.svg'); background-position: bottom left; background-repeat: repeat-x; content: ''; position: absolute; top: 0; bottom: -10px; left: -8px; right: 0; opacity: 0.3; z-index: -1; }
+.pbta.sheet.masks .cell__title { font-style: italic; position: relative; padding-left: 8px; border-bottom: none; color: black; letter-spacing: 0.05rem; font-size: 22px; }
+.pbta.sheet.masks .cell__title::before { z-index: -1; content: ""; position: absolute; left: 7px; top: 0; height: 2px; width: 100%; background-color: lightsteelblue; transform: skewX(-15deg); }
+.pbta.sheet.masks .cell__title::after { z-index: -1; content: ""; position: absolute; left: 0; top: 0; height: 100%; width: 4px; background-color: lightsteelblue; transform: skewX(-15deg); }
+
+.pbta.sheet.masks .sheet-tabs.tabs > a.item { border-top-left-radius: 5px; border-top-right-radius: 5px; font-style: italic; background-color: darkslateblue; }
+.pbta.sheet.masks .sheet-tabs.tabs > a.item.active { background-color: #B7C274; color: black; }

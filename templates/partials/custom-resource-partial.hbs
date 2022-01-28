@@ -2,8 +2,8 @@
 <div class="masks-custom-resource masks-custom-{{custom.resourceType}}" data-id="{{customKey}}">
     <h2>{{custom.name}}
         <span class="custom-resource-control">
-            <a class="custom-control" data-action="edit" title="Edit Resource"><i class="fas fa-edit"></i></a>
-            <a class="custom-control" data-action="delete" title="Delete Resource"><i class="fas fa-trash"></i></a>
+            <a class="custom-control" data-action="edit" title="{{localize "MASKS-SHEETS.Edit-Custom-Resource"}}"><i class="fas fa-edit"></i></a>
+            <a class="custom-control" data-action="delete" title="{{localize "MASKS-SHEETS.Delete-Custom-Resource"}}"><i class="fas fa-trash"></i></a>
         </span>
     </h2>
     {{#if (eq custom.resourceType "tracker")}}

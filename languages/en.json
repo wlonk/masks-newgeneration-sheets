@@ -1,15 +1,46 @@
 {
     "MASKS-SHEETS": {
+        "Abilities": "Abilities and Descripton of Powers",
+        "Advances": "Advances",
+        "Backstory": "Backstory",
         "Cancel": "Cancel",
+        "Conditions": "Conditions",
         "Create-Custom-Resource": "Create Custom Resource",
+        "Custom": "Custom Resources",
         "CUSTOM-RESOURCES": {
             "Numeric": "Numeric",
             "Text": "Text",
             "Toggle": "Toggle",
             "Tracker": "Tracker"
         },
+        "Delete-Influence": "Delete Influence",
+        "Delete-Item": "Delete Item",
+        "Delete-Custom-Resource": "Delete Custom Resource",
+        "DIALOG": {
+            "Limit": "Limit",
+            "Limit-Hint": "For tracker/numeric resource types.  A tracker must have a value of at least 2, and a setting of 0 for numeric means no limit.",
+            "Name": "Resource Name",
+            "Type": "Resource Type"
+        },
+        "Edit-Custom-Resource": "Edit Custom Resource",
+        "Edit-Item": "Edit Item",
+        "Influence-Lock": "Lock This Influence",
+        "Influence-Unlock": "Unlock This Influence",
         "InfluenceCreate": "Create Influence",
         "Influences": "Influences",
-        "Submit": "Submit"
+        "HasInfluence": "Has Influence Over You",
+        "HaveInfluence": "You Have Influence Over Them",
+        "Look": "Look and Appearance",
+        "Moment": "Moment of Truth",
+        "Potential": "Potential",
+        "Relationships": "Relationships",
+        "Resources": "Resources",
+        "Submit": "Submit",
+        "TheTeam": "When Our Team First Came Together",
+        "Unlocked": "Unlocked",
+        "WARNINGS": {
+            "UnlinkedMoves": "Moves cannot be rearranged while this token is not linked to an actor.",
+            "UnlinkedResources": "Resources cannot be rearranged while this token is not linked to an actor."
+        }
     }
 }

@@ -34,10 +34,17 @@ export class MasksCustomResourceDialog extends FormApplication {
             id: 'masksCustomResourceDialog',
             submitOnChange: true,
             template: 'modules/masks-newgeneration-sheets/templates/masks-custom-resource-dialog.hbs',
-            title: game.i18n.localize("MASKS-SHEETS.Create-Custom-Resource")
         };
 
         return foundry.utils.mergeObject(defaults, overrides);
+    }
+
+    get title() {
+        if (this.resourceID) {
+            return game.i18n.localize("MASKS-SHEETS.Edit-Custom-Resource");
+        }
+
+        return game.i18n.localize("MASKS-SHEETS.Create-Custom-Resource");
     }
 
     activateListeners(html) {
