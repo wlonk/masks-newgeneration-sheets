@@ -5,8 +5,15 @@ import { MasksCustomResourceDialog } from "./masks-custom-resource-dialog.mjs";
 
 export class MasksPbtASheet extends PbtaActorSheet {
     get template() {
-        //Decision making based on permission level, for now one sheet
-        return "modules/masks-newgeneration-sheets/templates/actor-sheet.hbs";
+        //Decision making based on permission level
+        let sheetTemplate = "modules/masks-newgeneration-sheets/templates/actor-sheet.hbs";
+        if (!this.isOwner && !this.isEditable) {
+            //observer, or limited?
+            if (this.actor.permission === CONST.DOCUMENT_PERMISSION_LEVELS.LIMITED) {
+                sheetTemplate = "modules/masks-newgeneration-sheets/templates/actor-sheet-limited.hbs";
+            }
+        }
+        return sheetTemplate;
     }
 
     static get defaultOptions() {
@@ -19,6 +26,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
     async getData() {
         const data = await super.getData();
 
+        data.isObserver = this.actor.permission === CONST.DOCUMENT_PERMISSION_LEVELS.OBSERVER;
         data.influences = this.actor.getFlag(MasksPbtaSheets.MODULEID, "influences");
         if (!data.influences) { this.actor.setFlag(MasksPbtaSheets.MODULEID, "influences", []); data.influences = []; }
         data.customResources = this.actor.data.data.resources.custom;
@@ -83,6 +91,8 @@ export class MasksPbtASheet extends PbtaActorSheet {
     }
 
     async _onInfluenceAction(event) {
+        if (!this.isEditable) { return; }
+
         const clickedElement = $(event.currentTarget);
         const action = clickedElement.data().influenceAction;
         let influenceID = $(clickedElement.parents("[data-influence-id]")[0]).data().influenceId;
@@ -134,6 +144,10 @@ export class MasksPbtASheet extends PbtaActorSheet {
 
     async _onCustomResourceAction(event) {
         event.preventDefault();
+
+        console.log(this.owner, this.editable);
+        if (!this.isEditable) { return; }
+
         const clickedElement = $(event.currentTarget);
         const action = clickedElement.data().action;
         const id = clickedElement.parents('[data-id]')?.data()?.id;

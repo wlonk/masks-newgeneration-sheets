@@ -25,11 +25,18 @@
             "path": "languages/en.json"
         }
     ],
-    "url": "https://gitlab.com/geekswordsman/masks-newgen-sheets",
-    "manifest": "https://gitlab.com/geekswordsman/masks-newgen-sheets/-/raw/main/module.json",
-    "download": "https://gitlab.com/geekswordsman/masks-newgen-sheets/-/archive/v1.0.0/masks-newgen-sheets-v1.0.0.zip",
-    "license": "https://gitlab.com/geekswordsman/masks-newgen-sheets/-/raw/main/LICENSE",
-    "readme": "https://gitlab.com/geekswordsman/masks-newgen-sheets/-/raw/main/README.MD",
-    "bugs": "https://gitlab.com/geekswordsman/masks-newgen-sheets/-/issues",
-    "changelog": "https://gitlab.com/geekswordsman/masks-newgen-sheets/-/raw/main/CHANGELOG.md"
+    "dependencies": [
+        {
+          "name": "masks-newgeneration-unofficial",
+          "manifest": "https://raw.githubusercontent.com/CyricPL/masks-newgeneration-unofficial/main/module.json"
+        }
+    ],
+    "system": "pbta",
+    "url": "https://gitlab.com/geekswordsman/masks-newgeneration-sheets",
+    "manifest": "https://gitlab.com/geekswordsman/masks-newgeneration-sheets/-/raw/main/module.json",
+    "download": "https://gitlab.com/geekswordsman/masks-newgeneration-sheets/-/archive/v1.0.0/masks-newgeneration-sheets-v1.0.0.zip",
+    "license": "https://gitlab.com/geekswordsman/masks-newgeneration-sheets/-/raw/main/LICENSE",
+    "readme": "https://gitlab.com/geekswordsman/masks-newgeneration-sheets/-/raw/main/README.MD",
+    "bugs": "https://gitlab.com/geekswordsman/masks-newgeneration-sheets/-/issues",
+    "changelog": "https://gitlab.com/geekswordsman/masks-newgeneration-sheets/-/raw/main/CHANGELOG.md"
 }

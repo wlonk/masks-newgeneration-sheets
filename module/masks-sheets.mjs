@@ -19,6 +19,7 @@ export class MasksPbtaSheets {
     static async preloadHandlebarTemplates() {
         const templates = [
             'modules/masks-newgeneration-sheets/templates/actor-sheet.hbs',
+            'modules/masks-newgeneration-sheets/templates/actor-sheet-limited.hbs',
             'modules/masks-newgeneration-sheets/templates/masks-custom-resource-dialog.hbs',
             'modules/masks-newgeneration-sheets/templates/partials/custom-resource-partial.hbs'
         ];

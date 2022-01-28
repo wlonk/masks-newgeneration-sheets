@@ -45,7 +45,7 @@
         </div>
 
       </section>
-
+      {{#unless isObserver}}
       <section class="sheet-attributes-top">
         <div class="cell cell--aesthetics">
           <div class="cell cell--attributes-top">
@@ -97,9 +97,11 @@
         </div>
       </section>
     </section>
+    {{/unless}}
 
     <section class="sheet-bottom">
       {{!-- Sidebar --}}
+      {{#unless isObserver}}
       <section class="sheet-look">
         <div class="cell cell--aesthetics">
           <div class="cell cell--attributes-left">
@@ -124,6 +126,7 @@
           </div>
         </div>
       </section>
+      {{/unless}}
 
       {{!-- Main --}}
       <section class="sheet-main">
@@ -132,8 +135,10 @@
         <nav class="sheet-tabs tabs" data-group="primary">
           <a class="item" data-tab="description">{{localize "PBTA.Description"}}</a>
           <a class="item" data-tab="moves">{{localize "PBTA.Moves"}}</a>
+          {{#unless isObserver}}
           <a class="item" data-tab="equipment">{{localize "MASKS-SHEETS.Resources"}}</a>
           <a class="item" data-tab="influences">{{localize "MASKS-SHEETS.Influences"}}</a>
+          {{/unless}}
         </nav>
 
         {{!-- Sheet Body --}}
@@ -157,6 +162,7 @@
                 {{editor content=data.details.biography target="data.details.biography" button=true owner=owner
                 editable=editable}}
               </div>
+              {{#unless isObserver}}
               <div class="cell cell--bio">
                 <label class="cell__title">{{localize "MASKS-SHEETS.TheTeam"}}</label>
                 {{editor content=data.details.team target="data.details.team" button=true owner=owner
@@ -167,6 +173,7 @@
                 {{editor content=data.details.relationships target="data.details.relationships" button=true owner=owner
                 editable=editable}}
               </div>
+              {{/unless}}
             </div>
           </div>
 
