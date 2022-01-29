@@ -4,6 +4,13 @@ import { MasksPbtaSheets } from "./masks-sheets.mjs";
 import { MasksCustomResourceDialog } from "./masks-custom-resource-dialog.mjs";
 
 export class MasksPbtASheet extends PbtaActorSheet {
+    constructor(data, context) {
+        super(data, context);
+
+        this.labelShiftDown = "none";
+        this.labelShiftUp = "none";
+    }
+
     get template() {
         //Decision making based on permission level
         let sheetTemplate = "modules/masks-newgeneration-sheets/templates/actor-sheet.hbs";
@@ -36,6 +43,8 @@ export class MasksPbtASheet extends PbtaActorSheet {
                 data.customResources[key].attrValue = `data.resources.custom.${key}.value`;
             }
         }
+        data.labelShiftDown = this.labelShiftDown;
+        data.labelShiftUp = this.labelShiftUp;
 
         return data;
     }
@@ -48,6 +57,8 @@ export class MasksPbtASheet extends PbtaActorSheet {
         html.find('[data-influence-action]').on('click', this._onInfluenceAction.bind(this));
         html.find('.resource-masks').on('click', this._onResourcesClick.bind(this));
         html.find(".custom-control").on('click', this._onCustomResourceAction.bind(this));
+        html.find('.masks-shift').on('change', this._onLabelShiftChange.bind(this));
+        html.find('.masks-shift-roll').on('click', this._onLabelShiftClick.bind(this));
     }
 
     async _onResourcesClick(event) {
@@ -145,7 +156,6 @@ export class MasksPbtASheet extends PbtaActorSheet {
     async _onCustomResourceAction(event) {
         event.preventDefault();
 
-        console.log(this.owner, this.editable);
         if (!this.isEditable) { return; }
 
         const clickedElement = $(event.currentTarget);
@@ -186,5 +196,60 @@ export class MasksPbtASheet extends PbtaActorSheet {
             default:
                 break;
         }
+    }
+
+    async _onLabelShiftChange(event) {
+        event.preventDefault();
+
+        if (!this.isEditable) { return; }
+
+        const clickedElement = $(event.currentTarget);
+        const action = clickedElement.data().action;
+        
+        switch (action) {
+            case "shift-down":
+                this.labelShiftDown = clickedElement.val();
+                break;
+            case "shift-up":
+                this.labelShiftUp = clickedElement.val();
+                break;
+            default:
+                break;
+        }
+    }
+
+    async _onLabelShiftClick(event) {
+        event.preventDefault();
+
+        let statUp = this.actor.data.data.stats[this.labelShiftUp];
+        let statDown = this.actor.data.data.stats[this.labelShiftDown];
+        if (!statUp && !statDown) { return; }
+        let statUpdate = {};
+
+        let content = `<b>${this.actor.name} ${game.i18n.localize('MASKS-SHEETS.Label-Shifts')}</b><br/>`;
+        if (statUp) {
+            content += `${statUp.label} ${game.i18n.localize('MASKS-SHEETS.Shifts-Up')}, ${statUp.value} -> `;
+            statUp.value++;
+            content += `${statUp.value}<br/>`;
+
+            statUpdate[`data.stats.${this.labelShiftUp}.value`] = statUp.value;
+        }
+        if (statDown) {
+            content += `${statDown.label} ${game.i18n.localize('MASKS-SHEETS.Shifts-Down')}, ${statDown.value} -> `;
+            statDown.value--;
+            content += `${statDown.value}<br/>`;
+
+            statUpdate[`data.stats.${this.labelShiftDown}.value`] = statDown.value;
+        }
+
+        await ChatMessage.create({
+            author: game.userId,
+            content: content,
+            speaker: ChatMessage.getSpeaker({actor: this.actor}),
+            type: CONST.CHAT_MESSAGE_TYPES.OTHER
+        });
+
+        this.labelShiftUp = this.labelShiftDown = 'none';
+        await this.actor.update(statUpdate);
     }
 }

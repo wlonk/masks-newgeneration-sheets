@@ -41,6 +41,29 @@
               {{/if}}
             </li>
             {{/each}}
+            {{#unless isEditable}}
+            <li class="stat flexrow masks-label-shift">
+              <label class="cell__title masks-shift-roll">
+                <img src="modules/masks-newgeneration-sheets/assets/back-forth.svg" title="Shift Labels" />
+                Shift Labels</label>
+              <div>
+                <select class="masks-shift masks-shift-up" name="masks-shift-up" data-action="shift-up">
+                  {{#select labelShiftUp}}<option value="none">None</option>
+                  {{#each data.stats as |stat key|}}
+                  {{#unless (eq key ../labelShiftDown)}}<option value="{{key}}">{{stat.label}}</option>{{/unless}}
+                  {{/each}}
+                  {{/select}}
+                </select>
+                <select class="masks-shift masks-shift-down" name="masks-shift-down" data-action="shift-down">
+                  {{#select labelShiftDown}}<option value="none">None</option>
+                  {{#each data.stats as |stat key|}}
+                  {{#unless (eq key ../labelShiftUp)}}<option value="{{key}}">{{stat.label}}</option>{{/unless}}
+                  {{/each}}
+                  {{/select}}
+                </select>
+              </div>
+            </li>
+            {{/unless}}
           </ol>
         </div>
 
