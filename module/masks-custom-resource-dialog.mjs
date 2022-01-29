@@ -98,6 +98,7 @@ export class MasksCustomResourceDialog extends FormApplication {
 
     async validateSubmission() {
         let validName = false;
+        let validLimit = true;
 
         this.resourceName = this.resourceName.trim();
 
@@ -108,7 +109,17 @@ export class MasksCustomResourceDialog extends FormApplication {
         validName = this.resourceName.length > 0;
 
         if (!validName) {
-            ui.notifications.warn("Custom Resource Name is required.");
+            ui.notifications.warn(game.i18n.localize("MASKS-SHEETS.WARNINGS.Invalid-Name"));
+            return;
+        }
+
+        if (this.resourceType === "numeric" || this.resourceType === "tracker") {
+            if (this.resourceLimit < 0) { validLimit = false; }
+            if (this.resourceType == "tracker" && this.resourceLimit < 2) { validLimit = false; }
+        }
+
+        if (!validLimit) {
+            ui.notifications.warn(game.i18n.localize("MASKS-SHEETS.WARNINGS.Invalid-Limit"));
             return;
         }
 

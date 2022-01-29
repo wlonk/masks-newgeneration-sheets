@@ -5,6 +5,7 @@
         "Backstory": "Backstory",
         "Cancel": "Cancel",
         "Conditions": "Conditions",
+        "Confirm": "Confirm",
         "Create-Custom-Resource": "Create Custom Resource",
         "Custom": "Custom Resources",
         "CUSTOM-RESOURCES": {
@@ -17,6 +18,8 @@
         "Delete-Item": "Delete Item",
         "Delete-Custom-Resource": "Delete Custom Resource",
         "DIALOG": {
+            "Confirm-Delete": "Confirm Resource Deletion",
+            "Confirm-Text": "Please confirm that you wish to delete Custom Resource:",
             "Limit": "Limit",
             "Limit-Hint": "For tracker/numeric resource types.  A tracker must have a value of at least 2, and a setting of 0 for numeric means no limit.",
             "Name": "Resource Name",
@@ -30,15 +33,25 @@
         "Influences": "Influences",
         "HasInfluence": "Has Influence Over You",
         "HaveInfluence": "You Have Influence Over Them",
+        "Label-Shift-Failed": "No shift occurs. Instead, you mark a condition.",
+        "Label-Shifts": "shifts labels!",
         "Look": "Look and Appearance",
         "Moment": "Moment of Truth",
+        "None": "None",
         "Potential": "Potential",
         "Relationships": "Relationships",
         "Resources": "Resources",
+        "Shift-Down": "Shift Down",
+        "Shift-Up": "Shift Up",
+        "Shifts-Down": "Shifts Down",
+        "Shifts-Up": "Shifts Up",
+        "Shift-Labels": "Shift Labels",
         "Submit": "Submit",
         "TheTeam": "When Our Team First Came Together",
         "Unlocked": "Unlocked",
         "WARNINGS": {
+            "Invalid-Limit": "Invalid Resource Limit.",
+            "Invalid-Name": "Custom Resource Name is required.",
             "UnlinkedMoves": "Moves cannot be rearranged while this token is not linked to an actor.",
             "UnlinkedResources": "Resources cannot be rearranged while this token is not linked to an actor."
         }

@@ -12,3 +12,6 @@ A suite of new sheets styles specifically for Masks: A New Generation.  This mod
 
 ## Special Thanks
 Shoutout to Asacolips for building the fantastically versitale PbtA system in Foundry, and to CyricPL for the Masks: A New Generation (unofficial) module!
+
+## Attribution
+back-forth.svg created by Lorc under CC BY 3.0, available through https://game-icons.net
