@@ -54,3 +54,8 @@
 
 .pbta.sheet.masks .sheet-tabs.tabs > a.item { border-top-left-radius: 5px; border-top-right-radius: 5px; font-style: italic; background-color: darkslateblue; }
 .pbta.sheet.masks .sheet-tabs.tabs > a.item.active { background-color: #B7C274; color: black; }
+
+/** Potential Custom Chat Message Styling, but currently out of scope for the module **/
+/* .vtt #chat-log .message .cell__title { text-transform: uppercase; line-height: 1; font-style: italic; position: relative; padding-left: 8px; padding-top: 2px; border-bottom: none; color: black; letter-spacing: 0.05rem; font-size: 22px; width: calc(100% - 2px);}
+.vtt #chat-log .message .cell__title::before { content: ""; position: absolute; left: 7px; top: 0; height: 2px; width: 100%; background-color: lightsteelblue; transform: skewX(-15deg); }
+.vtt #chat-log .message .cell__title::after { content: ""; position: absolute; left: 0; top: 0; height: 100%; width: 4px; background-color: lightsteelblue; transform: skewX(-15deg); } */

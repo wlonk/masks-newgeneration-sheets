@@ -175,11 +175,11 @@ export class MasksPbtASheet extends PbtaActorSheet {
             case "delete":
                 let resourceName = this.actor.data.data.resources.custom[id].name;
                 dialog = new Dialog({
-                    title: `Confirm Resource Deletion`,
-                    content: `Please confirm that you wisht to delete ${resourceName}!`,
+                    title: game.i18n.localize("MASKS-SHEETS.DIALOG.Confirm-Delete"),
+                    content: `${game.i18n.localize("MASKS-SHEETS.DIALOG.Confirm-Text")} <b>${resourceName}</b>.`,
                     buttons: {
                         yes: {
-                            label: "Confirm",
+                            label: game.i18n.localize("MASKS-SHEETS.Confirm"),
                             callback: async (html) => {
                                 let propName = `data.resources.custom.-=${id}`;
                                 await this.actor.update({[propName]: null});
@@ -187,7 +187,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
                         },
                         no: {
                             icon: "<i class='fas fa-times'></i>",
-                            label: 'Cancel'
+                            label: game.i18n.localize("MASKS-SHEETS.Cancel")
                         }
                     },
                     default: "yes"
@@ -225,21 +225,27 @@ export class MasksPbtASheet extends PbtaActorSheet {
         let statDown = this.actor.data.data.stats[this.labelShiftDown];
         if (!statUp && !statDown) { return; }
         let statUpdate = {};
+        let performShift = true;
 
-        let content = `<b>${this.actor.name} ${game.i18n.localize('MASKS-SHEETS.Label-Shifts')}</b><br/>`;
+        let content = `<h2 class="cell__title">${this.actor.name} ${game.i18n.localize('MASKS-SHEETS.Label-Shifts')}</h2>`;
         if (statUp) {
-            content += `${statUp.label} ${game.i18n.localize('MASKS-SHEETS.Shifts-Up')}, ${statUp.value} -> `;
+            content += `<b style="color: darkred">${statUp.label} ${game.i18n.localize('MASKS-SHEETS.Shifts-Up')}</b><br/>`;
             statUp.value++;
-            content += `${statUp.value}<br/>`;
 
             statUpdate[`data.stats.${this.labelShiftUp}.value`] = statUp.value;
         }
         if (statDown) {
-            content += `${statDown.label} ${game.i18n.localize('MASKS-SHEETS.Shifts-Down')}, ${statDown.value} -> `;
+            content += `<b style="color: red">${statDown.label} ${game.i18n.localize('MASKS-SHEETS.Shifts-Down')}</b>`;
             statDown.value--;
-            content += `${statDown.value}<br/>`;
 
             statUpdate[`data.stats.${this.labelShiftDown}.value`] = statDown.value;
+        }
+
+        if (statUp?.value > 3 || statDown?.value < -3) {
+            performShift = false;
+            if (statUp) { statUp.value--; }
+            if (statDown) { statDown.value++; }
+            content = `<h2 class="cell__title">${this.actor.name} ${game.i18n.localize('MASKS-SHEETS.Label-Shifts')}</h2><p>${game.i18n.localize('MASKS-SHEETS.Label-Shift-Failed')}</p>`;
         }
 
         await ChatMessage.create({
@@ -250,6 +256,6 @@ export class MasksPbtASheet extends PbtaActorSheet {
         });
 
         this.labelShiftUp = this.labelShiftDown = 'none';
-        await this.actor.update(statUpdate);
+        if (performShift) { await this.actor.update(statUpdate); } else { this.render(false); }
     }
 }
