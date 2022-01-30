@@ -35,7 +35,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
 
         data.isObserver = this.actor.permission === CONST.DOCUMENT_PERMISSION_LEVELS.OBSERVER;
         data.influences = this.actor.getFlag(MasksPbtaSheets.MODULEID, "influences");
-        if (!data.influences) { this.actor.setFlag(MasksPbtaSheets.MODULEID, "influences", []); data.influences = []; }
+        if (!data.influences && this.isEditable) { this.actor.setFlag(MasksPbtaSheets.MODULEID, "influences", []); data.influences = []; }
         data.customResources = this.actor.data.data.resources.custom;
         if (data.customResources) {
             for (let [key, val] of Object.entries(data.customResources)) {
@@ -52,6 +52,8 @@ export class MasksPbtASheet extends PbtaActorSheet {
     activateListeners(html) {
         super.activateListeners(html);
 
+        if (!this.isEditable) { return; }
+        
         html.find('.influence-create').on('click', this._onInfluenceCreate.bind(this));
         html.find('.influence--name').on('change', this._onInfluenceEdit.bind(this));
         html.find('[data-influence-action]').on('click', this._onInfluenceAction.bind(this));
@@ -62,6 +64,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
     }
 
     async _onResourcesClick(event) {
+        if (!this.isEditable) { return; }
         const clickedElement = $(event.currentTarget);
         const action = clickedElement.data().action;
         const attrValue = clickedElement.data().attr;
@@ -78,6 +81,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
 
     async _onInfluenceCreate(event) {
         event.preventDefault();
+        if (!this.isEditable) { return; }
 
         let item = {
             "id": foundry.utils.randomID(),
@@ -93,6 +97,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
     }
 
     async _onInfluenceEdit(event) {
+        if (!this.isEditable) { return; }
         let influenceID = $($(event.target).parents("[data-influence-id]")[0]).data().influenceId;
         let influences = this.actor.getFlag(MasksPbtaSheets.MODULEID, "influences");
         let influence = influences.find(i => i.id === influenceID);
@@ -102,6 +107,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
     }
 
     async _onInfluenceAction(event) {
+        event.preventDefault();
         if (!this.isEditable) { return; }
 
         const clickedElement = $(event.currentTarget);
@@ -155,7 +161,6 @@ export class MasksPbtASheet extends PbtaActorSheet {
 
     async _onCustomResourceAction(event) {
         event.preventDefault();
-
         if (!this.isEditable) { return; }
 
         const clickedElement = $(event.currentTarget);
@@ -220,6 +225,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
 
     async _onLabelShiftClick(event) {
         event.preventDefault();
+        if (!this.isEditable) { return; }
 
         let statUp = this.actor.data.data.stats[this.labelShiftUp];
         let statDown = this.actor.data.data.stats[this.labelShiftDown];

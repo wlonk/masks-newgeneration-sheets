@@ -23,8 +23,13 @@
             "lang": "en",
             "name": "English",
             "path": "languages/en.json"
-        }
-    ],
+        },
+        {
+            "lang": "pt-BR",
+            "name": "Português (Brasil)",
+            "path": "languages/pt-br.json"
+         }
+     ],
     "dependencies": [
         {
           "name": "masks-newgeneration-unofficial",
