@@ -46,6 +46,17 @@ export class MasksPbtASheet extends PbtaActorSheet {
         data.labelShiftDown = this.labelShiftDown;
         data.labelShiftUp = this.labelShiftUp;
 
+        //Dynamic localization fields
+
+        for (let key of Object.keys(data.data.attrLeft.conditions.options)) {
+            data.data.attrLeft.conditions.options[key].translation = game.i18n.localize(`MASKS-SHEETS.CONDITIONS.${data.data.attrLeft.conditions.options[key].label}`);
+        }
+        for (let key of Object.keys(data.data.stats)) {
+            data.data.stats[key].translation = game.i18n.localize(`MASKS-SHEETS.STATS.${key}`);
+        }
+
+        console.log(data);
+
         return data;
     }
 
