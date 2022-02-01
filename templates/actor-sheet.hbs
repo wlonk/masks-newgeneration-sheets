@@ -31,7 +31,7 @@
               <span class="stat-icon stat-rollable rollable" data-mod="{{stat.value}}" data-label="{{stat.label}}"><i
                   class="fas fa-dice-d6"></i> <i class="fas fa-dice-d6"></i></span>
               <label for="data.stats.{{key}}.value" class="cell__title stat-rollable rollable" data-mod="{{stat.value}}"
-                data-label="{{stat.label}}">{{ stat.label }}</label>
+                data-label="{{stat.label}}">{{ stat.translation }}</label>
               <input class="stat-value" type="text" name="data.stats.{{key}}.value"
                 value="{{#if stat.value}}{{numberFormat stat.value decimals=0 sign=true}}{{else}}0{{/if}}"
                 data-dtype="Number" />
@@ -133,13 +133,13 @@
         <div class="cell cell--aesthetics">
           <div class="cell cell--attributes-left">
             <div class="cell cell--conditions cell--ListMany">
-              <label for="data.attrLeft.conditions.value" class="cell__title">{{localize "MASKS-SHEETS.Conditions"}}</label>
+              <label for="data.attrLeft.conditions.value" class="cell__title">{{localize "MASKS-SHEETS.CONDITIONS.Label"}}</label>
               <ul class="cell__checkboxes flexcol">
                 {{#each data.attrLeft.conditions.options as |option optionKey|}}
                 <label>
                   <input type="checkbox" class="attr-list"
                     name="data.attrLeft.conditions.options.{{optionKey}}.value" {{checked option.value}} />
-                  {{option.label}}
+                  {{option.translation}}
                 </label>
                 {{/each}}
               </ul>
@@ -325,7 +325,7 @@
                 <li class="item flexrow" data-influence-id="{{id}}">
                   <div class="influence-name">
                     <img class="influence-icon" data-influence-action="roll" src="modules/masks-newgeneration-unofficial/images/gameicons/shadow-follower-%23ffffff-%233da7db.svg" />
-                    <input type="text" class="influence--name" value="{{name}}" placeholder="Person's Name" />
+                    <input type="text" class="influence--name" value="{{name}}" placeholder="{{localize "MASKS.SHEETS.Person-Name"}}" />
                   </div>
                   <div class="influence-management">
                     <img class="influence-icon {{#unless hasInfluenceOver}}influence-disabled{{/unless}}" data-influence-action="hasInfluenceOver" src="modules/masks-newgeneration-unofficial/images/gameicons/team-downgrade-%23ffffff-%233da7db.svg" title="{{localize "MASKS-SHEETS.HasInfluence"}}" />

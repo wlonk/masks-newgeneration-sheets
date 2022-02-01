@@ -1,0 +1,59 @@
+{
+    "MASKS-SHEETS": {
+        "Abilities": "Habilidades e Descrição dos Poderes",
+        "Advances": "Avanços",
+        "Backstory": "Antecedente",
+        "Cancel": "Cancelar",
+        "Conditions": "Condições",
+        "Confirm": "Confirmar",
+        "Create-Custom-Resource": "Criar Recurso Customizado",
+        "Custom": "Recurso Customizado",
+        "CUSTOM-RESOURCES": {
+            "Numeric": "Númerico",
+            "Text": "Texto",
+            "Toggle": "Toggle",
+            "Tracker": "Rastreador"
+        },
+        "Delete-Influence": "Deletar Influência",
+        "Delete-Item": "Deletar Item",
+        "Delete-Custom-Resource": "Deletar Recurso Customizado",
+        "DIALOG": {
+            "Confirm-Delete": "Confirmar Deletar Recurso",
+            "Confirm-Text": "Por favor confirme que vocÊ deseja deletar esse recurso customizado:",
+            "Limit": "Limite",
+            "Limit-Hint": "Para os tipos de recurso rastreador/número:  Um rastreador tem que ter um valor mínimo de 2. Uma configuração de 0 para numérico significa sem limite.",
+            "Name": "Nome do Recurso",
+            "Type": "Nome do Recurso"
+        },
+        "Edit-Custom-Resource": "Editar Recurso CustomizadoCustom Resource",
+        "Edit-Item": "Editar Item",
+        "Influence-Lock": "Travar Essa Influência",
+        "Influence-Unlock": "Destravar Influência",
+        "InfluenceCreate": "Criar Influência",
+        "Influences": "Influências",
+        "HasInfluence": "Tem influência Sobre Você",
+        "HaveInfluence": "Você tem Influência sobre Eles",
+        "Label-Shift-Failed": "Sem troca de rótulo. Marque uma condição no lugar.",
+        "Label-Shifts": "troca rótulos!",
+        "Look": "Aparência",
+        "Moment": "Momento da Verdade",
+        "None": "Nenhum",
+        "Potential": "Potencial",
+        "Relationships": "Relacionamento",
+        "Resources": "Recursos",
+        "Shift-Down": "Diminuir",
+        "Shift-Up": "Aumentar",
+        "Shifts-Down": "Diminuir",
+        "Shifts-Up": "Aumentar",
+        "Shift-Labels": "Trocar Rótulos",
+        "Submit": "Enviar",
+        "TheTeam": "Quando o Time se Uniu pela Primeira Vez",
+        "Unlocked": "Destravado",
+        "WARNINGS": {
+            "Invalid-Limit": "Limite de Recurso Inválido.",
+            "Invalid-Name": "Nome do Recurso Customizado necessário.",
+            "UnlinkedMoves": "Movimentos não podem ser remanejados enquanto este token não estiver linkado ao ator.",
+            "UnlinkedResources": "Recursos não podem ser remanejados enquanto este token não estiver linkado ao ator."
+        }
+    }
+}
