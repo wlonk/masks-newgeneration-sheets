@@ -13,7 +13,7 @@
     "minimumCoreVersion": "9",
     "compatibleCoreVersion": "9",
     "styles": [ 
-        "styles/masks-sheets.css" 
+        "styles/masks-sheets.css"
     ],
     "esmodules": [
         "module/masks-sheets.mjs"
