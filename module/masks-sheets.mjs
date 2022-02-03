@@ -16,6 +16,15 @@ Hooks.once("init", () => {
 
 export class MasksPbtaSheets {
     static MODULEID="masks-newgeneration-sheets";
+
+    static log(force, ...args) {
+        const shouldLog = force || game.modules.get('_dev-mode')?.api?.getPackageDebugValue(REGIONS.ID);
+
+        if (shouldLog) {
+            console.log(REGIONS.ID, '|', ...args);
+        }
+    }
+
     static async preloadHandlebarTemplates() {
         const templates = [
             'modules/masks-newgeneration-sheets/templates/actor-sheet.hbs',

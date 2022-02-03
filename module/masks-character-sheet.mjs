@@ -55,8 +55,6 @@ export class MasksPbtASheet extends PbtaActorSheet {
             data.data.stats[key].translation = game.i18n.localize(`MASKS-SHEETS.STATS.${key}`);
         }
 
-        console.log(data);
-
         return data;
     }
 
