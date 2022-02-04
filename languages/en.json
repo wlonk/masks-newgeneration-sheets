@@ -16,7 +16,9 @@
         "Create-Custom-Resource": "Create Custom Resource",
         "Custom": "Custom Resources",
         "CUSTOM-RESOURCES": {
+            "Condition": "Condition",
             "Numeric": "Numeric",
+            "Stat": "Stat",
             "Text": "Text",
             "Toggle": "Toggle",
             "Tracker": "Tracker"

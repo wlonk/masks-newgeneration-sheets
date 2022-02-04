@@ -1,3 +1,9 @@
+/* Variables */
+:root {
+    --actor-gradient: linear-gradient(to bottom, #1e528e 0%, #728a7c 80%, #e9ce5d 100%);
+    
+}
+
 .pbta.sheet.masks .sheet-header__fields {
     grid-column: span 3/span 3;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -46,7 +52,7 @@
 .pbta.sheet.masks .masks-label-shift select.masks-shift-up { background: url("/icons/svg/up.svg") no-repeat -10% rgba(0,0,0,.25); background-size: contain;}
 
 /** Custom Styling **/
-.pbta.sheet.actor.masks .window-content { background-image: linear-gradient(to bottom, #1e528e 0%, #728a7c 80%, #e9ce5d 100%); }
+.pbta.sheet.actor.masks .window-content { background-image: var(--actor-gradient); }
 .pbta.sheet.actor.masks .window-content > form::before { background-image: url('/modules/masks-newgeneration-sheets/assets/skyline.svg'); background-position: bottom left; background-repeat: repeat-x; content: ''; position: absolute; top: 0; bottom: -10px; left: -8px; right: 0; opacity: 0.3; z-index: -1; }
 .pbta.sheet.masks .cell__title { font-style: italic; position: relative; padding-left: 8px; border-bottom: none; color: black; letter-spacing: 0.05rem; font-size: 22px; }
 .pbta.sheet.masks .cell__title::before { z-index: -1; content: ""; position: absolute; left: 7px; top: 0; height: 2px; width: 100%; background-color: lightsteelblue; transform: skewX(-15deg); }

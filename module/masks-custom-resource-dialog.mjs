@@ -12,7 +12,9 @@ export class MasksCustomResourceDialog extends FormApplication {
             "tracker": "MASKS-SHEETS.CUSTOM-RESOURCES.Tracker",
             "numeric": "MASKS-SHEETS.CUSTOM-RESOURCES.Numeric",
             "text": "MASKS-SHEETS.CUSTOM-RESOURCES.Text",
-            "toggle": "MASKS-SHEETS.CUSTOM-RESOURCES.Toggle"
+            "toggle": "MASKS-SHEETS.CUSTOM-RESOURCES.Toggle",
+            "stat": "MASKS-SHEETS.CUSTOM-RESOURCES.Stat",
+            "condition": "MASKS-SHEETS.CUSTOM-RESOURCES.Condition"
         }
 
         if (this.resourceID) {
@@ -138,6 +140,7 @@ export class MasksCustomResourceDialog extends FormApplication {
                     defaultValue = "";
                     break;
                 case "toggle":
+                case "condition":
                     defaultValue = false;
                     break;
                 default:
@@ -161,7 +164,8 @@ export class MasksCustomResourceDialog extends FormApplication {
             resourceType: this.resourceType,
             max: this.resourceLimit,
             steps: steps,
-            value: defaultValue
+            value: defaultValue,
+            secondaryValue: false
         }
 
         this.actor.data.data.resources.custom[customID] = newResource;
