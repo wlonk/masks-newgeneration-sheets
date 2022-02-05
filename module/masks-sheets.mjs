@@ -35,4 +35,12 @@ export class MasksPbtaSheets {
 
         return loadTemplates(templates);
     }
+
+    static masksNumberFormat(dataObj, dataLocation, options) {
+        const dec = options.hash['decimals'] ?? 0;
+        const sign = options.hash['sign'] || false;
+        value = parseFloat(dataObj[dataLocation]).toFixed(dec);
+        if (sign ) return ( value >= 0 ) ? "+"+value : value;
+        return value;
+      }
 }

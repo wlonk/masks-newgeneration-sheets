@@ -77,8 +77,6 @@ export class MasksCustomResourceDialog extends FormApplication {
 
         this.showResourceLimit = (this.resourceType === "tracker" || this.resourceType === "numeric");
 
-        console.log(this);
-
         this.render(false);
     }
 

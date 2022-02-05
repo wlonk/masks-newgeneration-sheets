@@ -34,7 +34,9 @@
             "Name": "Resource Name",
             "Type": "Resource Type"
         },
+        "Edit-Custom-Condition": "Edit a Custom Condition under Conditions!",
         "Edit-Custom-Resource": "Edit Custom Resource",
+        "Edit-Custom-Stat": "Edit a Custom Stat's values under Stats!",
         "Edit-Item": "Edit Item",
         "Influence-Lock": "Lock This Influence",
         "Influence-Unlock": "Unlock This Influence",

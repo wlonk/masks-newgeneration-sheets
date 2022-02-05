@@ -37,12 +37,35 @@ export class MasksPbtASheet extends PbtaActorSheet {
         data.influences = this.actor.getFlag(MasksPbtaSheets.MODULEID, "influences");
         if (!data.influences && this.isEditable) { this.actor.setFlag(MasksPbtaSheets.MODULEID, "influences", []); data.influences = []; }
         data.customResources = this.actor.data.data.resources.custom;
+        data.customStats = {};
+        data.customConditions = {};
+
         if (data.customResources) {
             for (let [key, val] of Object.entries(data.customResources)) {
                 data.customResources[key].attrName = `data.resources.custom.${key}`;
                 data.customResources[key].attrValue = `data.resources.custom.${key}.value`;
+
+                if (val.resourceType === "stat") {
+                    data.customStats[key] = {
+                        label: val.name,
+                        secondaryValue: val.secondaryValue,
+                        value: val.value,
+                        translation: val.name,
+                        attrName: `data.resources.custom.${key}`,
+                        attrValue: `data.resources.custom.${key}.value`
+                    };
+                } else if (val.resourceType === "condition") {
+                    data.customConditions[key] = {
+                        label: val.name,
+                        value: val.value,
+                        translation: val.name,
+                        attrName: `data.resources.custom.${key}`,
+                        attrValue: `data.resources.custom.${key}.value`
+                    };
+                }
             }
         }
+
         data.labelShiftDown = this.labelShiftDown;
         data.labelShiftUp = this.labelShiftUp;
 
@@ -238,22 +261,40 @@ export class MasksPbtASheet extends PbtaActorSheet {
 
         let statUp = this.actor.data.data.stats[this.labelShiftUp];
         let statDown = this.actor.data.data.stats[this.labelShiftDown];
+        let isCustomUp = false;
+        let isCustomDown = false;
+
+        console.log(this.labelShiftUp, this.labelShiftDown);
+        
+        if (!statUp && this.labelShiftUp !== 'none') { isCustomUp = true; statUp = this.actor.data.data.resources.custom[this.labelShiftUp]; }
+        if (!statDown && this.labelShiftDown !== 'none') { isCustomDown = true; statDown = this.actor.data.data.resources.custom[this.labelShiftDown]; }
+
         if (!statUp && !statDown) { return; }
         let statUpdate = {};
         let performShift = true;
 
         let content = `<h2 class="cell__title">${this.actor.name} ${game.i18n.localize('MASKS-SHEETS.Label-Shifts')}</h2>`;
         if (statUp) {
-            content += `<b style="color: darkred">${statUp.label} ${game.i18n.localize('MASKS-SHEETS.Shifts-Up')}</b><br/>`;
             statUp.value++;
 
-            statUpdate[`data.stats.${this.labelShiftUp}.value`] = statUp.value;
+            if (!isCustomUp) { 
+                content += `<b style="color: darkred">${statUp.label} ${game.i18n.localize('MASKS-SHEETS.Shifts-Up')}</b><br/>`;
+                statUpdate[`data.stats.${this.labelShiftUp}.value`] = statUp.value; 
+            } else { 
+                content += `<b style="color: darkred">${this.actor.data.data.resources.custom[this.labelShiftUp].name} ${game.i18n.localize('MASKS-SHEETS.Shifts-Up')}</b><br/>`;
+                statUpdate[`data.resources.custom.${this.labelShiftUp}.value`] = statUp.value; 
+            }
         }
         if (statDown) {
-            content += `<b style="color: red">${statDown.label} ${game.i18n.localize('MASKS-SHEETS.Shifts-Down')}</b>`;
             statDown.value--;
 
-            statUpdate[`data.stats.${this.labelShiftDown}.value`] = statDown.value;
+            if (!isCustomDown) {
+                content += `<b style="color: red">${statDown.label} ${game.i18n.localize('MASKS-SHEETS.Shifts-Down')}</b>`;
+                statUpdate[`data.stats.${this.labelShiftDown}.value`] = statDown.value;
+            } else {
+                content += `<b style="color: red">${this.actor.data.data.resources.custom[this.labelShiftDown].name} ${game.i18n.localize('MASKS-SHEETS.Shifts-Down')}</b>`;
+                statUpdate[`data.resources.custom.${this.labelShiftDown}.value`] = statDown.value; 
+            }
         }
 
         if (statUp?.value > 3 || statDown?.value < -3) {
