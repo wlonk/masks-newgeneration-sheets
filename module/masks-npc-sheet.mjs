@@ -6,26 +6,23 @@ import { MasksCustomResourceDialog } from "./masks-custom-resource-dialog.mjs";
 export class MasksPbtANPCSheet extends PbtaActorNpcSheet {
     constructor(data, context) {
         super(data, context);
-
-        this.labelShiftDown = "none";
-        this.labelShiftUp = "none";
     }
 
     get template() {
         //Decision making based on permission level
-        let sheetTemplate = "modules/masks-newgeneration-sheets/templates/actor-sheet.hbs";
-        if (!this.isOwner && !this.isEditable) {
-            //observer, or limited?
-            if (this.actor.permission === CONST.DOCUMENT_PERMISSION_LEVELS.LIMITED) {
-                sheetTemplate = "modules/masks-newgeneration-sheets/templates/actor-sheet-limited.hbs";
-            }
-        }
+        let sheetTemplate = "modules/masks-newgeneration-sheets/templates/npc-sheet.hbs";
+        // if (!this.isOwner && !this.isEditable) {
+        //     //observer, or limited?
+        //     if (this.actor.permission === CONST.DOCUMENT_PERMISSION_LEVELS.LIMITED) {
+        //         sheetTemplate = "modules/masks-newgeneration-sheets/templates/actor-sheet-limited.hbs";
+        //     }
+        // }
         return sheetTemplate;
     }
 
     static get defaultOptions() {
         let options = {
-            classes: ["pbta", "sheet", "actor", "masks"]
+            classes: ["pbta", "sheet", "actor", "npc", "masks"]
         };
         return mergeObject(super.defaultOptions, options);
     }

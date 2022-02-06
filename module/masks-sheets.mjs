@@ -1,4 +1,5 @@
 import { MasksPbtASheet } from "./masks-character-sheet.mjs";
+import { MasksPbtANPCSheet} from "./masks-npc-sheet.mjs";
 
 /*Enable Debug Module */
 Hooks.once('devModeReady', ({ registerPackageDebugFlag }) => {
@@ -10,6 +11,10 @@ Hooks.once("init", () => {
         types: ["character"],
         makeDefault: true
     });
+    Actors.registerSheet("pbta", MasksPbtANPCSheet, {
+        types: ["npc"],
+        makeDefault: true
+    })
 
     return MasksPbtaSheets.preloadHandlebarTemplates();
 });
