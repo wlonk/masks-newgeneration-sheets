@@ -1,4 +1,4 @@
-import { PbtaActorSheet } from "../../../systems/pbta/module/actor/actor-npc-sheet.js";
+import { PbtaActorNpcSheet } from "../../../systems/pbta/module/actor/actor-npc-sheet.js";
 import { PbtaRolls } from "../../../systems/pbta/module/rolls.js";
 import { MasksPbtaSheets } from "./masks-sheets.mjs";
 import { MasksCustomResourceDialog } from "./masks-custom-resource-dialog.mjs";
@@ -22,7 +22,9 @@ export class MasksPbtANPCSheet extends PbtaActorNpcSheet {
 
     static get defaultOptions() {
         let options = {
-            classes: ["pbta", "sheet", "actor", "npc", "masks"]
+            classes: ["pbta", "sheet", "actor", "npc", "masks"],
+            tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "moves" }],
+            scrollY: [".window-content"],
         };
         return mergeObject(super.defaultOptions, options);
     }
@@ -33,18 +35,15 @@ export class MasksPbtANPCSheet extends PbtaActorNpcSheet {
         data.isObserver = this.actor.permission === CONST.DOCUMENT_PERMISSION_LEVELS.OBSERVER;
         data.influences = this.actor.getFlag(MasksPbtaSheets.MODULEID, "influences");
         if (!data.influences && this.isEditable) { this.actor.setFlag(MasksPbtaSheets.MODULEID, "influences", []); data.influences = []; }
-        data.customResources = this.actor.data.data.resources.custom;
+        data.customResources = this.actor.data.data.attrTop.custom;
         if (data.customResources) {
             for (let [key, val] of Object.entries(data.customResources)) {
                 data.customResources[key].attrName = `data.resources.custom.${key}`;
                 data.customResources[key].attrValue = `data.resources.custom.${key}.value`;
             }
         }
-        data.labelShiftDown = this.labelShiftDown;
-        data.labelShiftUp = this.labelShiftUp;
 
         //Dynamic localization fields
-
         for (let key of Object.keys(data.data.attrLeft.conditions.options)) {
             data.data.attrLeft.conditions.options[key].translation = game.i18n.localize(`MASKS-SHEETS.CONDITIONS.${data.data.attrLeft.conditions.options[key].label}`);
         }
@@ -52,7 +51,11 @@ export class MasksPbtANPCSheet extends PbtaActorNpcSheet {
             data.data.stats[key].translation = game.i18n.localize(`MASKS-SHEETS.STATS.${key}`);
         }
 
-        console.log(data);
+        //Add misc items into "Other" category
+        let miscItems = this.actor.items.filter(i => i.type !== "npcMove" && i.type !== "equipment");
+        if (miscItems) {
+            data.moves["PBTA_OTHER"] = data.moves["PBTA_OTHER"].concat(miscItems);
+        }
 
         return data;
     }
