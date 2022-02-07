@@ -1,3 +1,8 @@
+#1.2.0
+ - Added NPC Sheet!
+ - Added new custom resource types - Conditions and Stats
+ - Fixed a bug where the Hero Name would not be saved
+
 #1.1.1
  - Added missing localization field to influences placeholder
  - Fixed issue wither "user lacks permission" error that would happen if a player with limited/observer permissions opened a sheet that had never been opened with this module before.
