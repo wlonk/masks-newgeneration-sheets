@@ -1,7 +1,15 @@
+/* Variables */
+:root {
+    --actor-gradient: linear-gradient(to bottom, #1e528e 0%, #728a7c 80%, #e9ce5d 100%);
+    
+}
+
 .pbta.sheet.masks .sheet-header__fields {
     grid-column: span 3/span 3;
     grid-template-columns: repeat(3, minmax(0, 1fr));
 }
+
+.pbta.sheet.masks.npc .sheet-header__fields { padding: 0px; }
 
 .pbta.sheet.masks .sheet-attributes { position: relative; }
 .pbta.sheet.masks .masks-background-image { position: absolute; bottom: 0px; left: 0px; width: 100%; z-index: -1; }
@@ -20,6 +28,8 @@
 .pbta.sheet.masks .cell__wrapper > button.resource-masks.resource-decrease { left: 5px; }
 .pbta.sheet.masks .cell__wrapper > input[type="number"] { font-size: 18px; text-align: center; background-color: rgba(0,0,0,0.1); font-weight: bold; margin: 0; display: block; width: 100%; }
 .pbta.sheet.masks .cell__wrapper > button.resource-masks.resource-increase { right: 5px; }
+
+.pbta.sheet.masks .cell--aesthetics .cell--conditions ul.cell__checkboxes label { display: flex; align-items: center; }
 
 .pbta.sheet.masks .influences .influence-name { flex: 4; }
 .pbta.sheet.masks .influences input.influence--name { width: calc(100% - 36px); font-size: 18px; text-align: left; height: 32px; margin: 0px 0px 8px 0px; }
@@ -45,8 +55,16 @@
 .pbta.sheet.masks .masks-label-shift select.masks-shift-down { background: url("/icons/svg/down.svg") no-repeat -10% rgba(0,0,0,.25); background-size: contain;}
 .pbta.sheet.masks .masks-label-shift select.masks-shift-up { background: url("/icons/svg/up.svg") no-repeat -10% rgba(0,0,0,.25); background-size: contain;}
 
+/** NPCs **/
+.pbta.sheet.masks.npc .sheet-wrapper .sheet-header { margin-bottom: 0px; }
+.pbta.sheet.masks.npc .sheet-attributes { grid-column: span 5; grid-template-columns: repeat(5, minmax(0, 1fr));}
+.pbta.sheet.masks.npc .sheet-attributes .cell-npc-text { grid-column: span 2;}
+.pbta.sheet.masks.npc .sheet-attributes .cell-npc-text .editor { min-height: 150px; max-height: 150px;}
+.pbta.sheet.masks.npc .sheet-attributes .cell-npc-text .editor .tox-editor-container { min-height: 150px; height: 100% !important; }
+
+
 /** Custom Styling **/
-.pbta.sheet.actor.masks .window-content { background-image: linear-gradient(to bottom, #1e528e 0%, #728a7c 80%, #e9ce5d 100%); }
+.pbta.sheet.actor.masks .window-content { background: var(--actor-gradient); }
 .pbta.sheet.actor.masks .window-content > form::before { background-image: url('/modules/masks-newgeneration-sheets/assets/skyline.svg'); background-position: bottom left; background-repeat: repeat-x; content: ''; position: absolute; top: 0; bottom: -10px; left: -8px; right: 0; opacity: 0.3; z-index: -1; }
 .pbta.sheet.masks .cell__title { font-style: italic; position: relative; padding-left: 8px; border-bottom: none; color: black; letter-spacing: 0.05rem; font-size: 22px; }
 .pbta.sheet.masks .cell__title::before { z-index: -1; content: ""; position: absolute; left: 7px; top: 0; height: 2px; width: 100%; background-color: lightsteelblue; transform: skewX(-15deg); }

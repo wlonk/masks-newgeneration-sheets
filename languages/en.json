@@ -5,10 +5,15 @@
         "Backstory": "Backstory",
         "Cancel": "Cancel",
         "CONDITIONS": {
+            "Afraid": "Afraid",
             "Afraid (-2 to engage)": "Afraid (-2 to engage)",
+            "Angry": "Angry",
             "Angry (-2 to comfort or pierce)": "Angry (-2 to comfort or pierce)",
+            "Guilty": "Guilty",
             "Guilty (-2 to provoke or assess)": "Guilty (-2 to provoke or assess)",
+            "Hopeless": "Hopeless",
             "Hopeless (-2 to unleash)": "Hopeless (-2 to unleash)",
+            "Insecure": "Insecure",
             "Insecure (-2 to defend or reject)": "Insecure (-2 to defend or reject)",
             "Label": "Conditions"
         },
@@ -16,7 +21,9 @@
         "Create-Custom-Resource": "Create Custom Resource",
         "Custom": "Custom Resources",
         "CUSTOM-RESOURCES": {
+            "Condition": "Condition",
             "Numeric": "Numeric",
+            "Stat": "Stat",
             "Text": "Text",
             "Toggle": "Toggle",
             "Tracker": "Tracker"
@@ -32,7 +39,9 @@
             "Name": "Resource Name",
             "Type": "Resource Type"
         },
+        "Edit-Custom-Condition": "Edit a Custom Condition under Conditions!",
         "Edit-Custom-Resource": "Edit Custom Resource",
+        "Edit-Custom-Stat": "Edit a Custom Stat's values under Stats!",
         "Edit-Item": "Edit Item",
         "Influence-Lock": "Lock This Influence",
         "Influence-Unlock": "Unlock This Influence",
@@ -45,6 +54,10 @@
         "Look": "Look and Appearance",
         "Moment": "Moment of Truth",
         "None": "None",
+        "NPC": {
+            "Abilities": "Abilities",
+            "Drive": "Drive"
+        },
         "Person-Name": "Person's Name",
         "Potential": "Potential",
         "Relationships": "Relationships",

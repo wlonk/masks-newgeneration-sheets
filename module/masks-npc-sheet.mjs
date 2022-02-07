@@ -1,31 +1,30 @@
-import { PbtaActorSheet } from "../../../systems/pbta/module/actor/actor-sheet.js";
+import { PbtaActorNpcSheet } from "../../../systems/pbta/module/actor/actor-npc-sheet.js";
 import { PbtaRolls } from "../../../systems/pbta/module/rolls.js";
 import { MasksPbtaSheets } from "./masks-sheets.mjs";
 import { MasksCustomResourceDialog } from "./masks-custom-resource-dialog.mjs";
 
-export class MasksPbtASheet extends PbtaActorSheet {
+export class MasksPbtANPCSheet extends PbtaActorNpcSheet {
     constructor(data, context) {
         super(data, context);
-
-        this.labelShiftDown = "none";
-        this.labelShiftUp = "none";
     }
 
     get template() {
         //Decision making based on permission level
-        let sheetTemplate = "modules/masks-newgeneration-sheets/templates/actor-sheet.hbs";
-        if (!this.isOwner && !this.isEditable) {
-            //observer, or limited?
-            if (this.actor.permission === CONST.DOCUMENT_PERMISSION_LEVELS.LIMITED) {
-                sheetTemplate = "modules/masks-newgeneration-sheets/templates/actor-sheet-limited.hbs";
-            }
-        }
+        let sheetTemplate = "modules/masks-newgeneration-sheets/templates/npc-sheet.hbs";
+        // if (!this.isOwner && !this.isEditable) {
+        //     //observer, or limited?
+        //     if (this.actor.permission === CONST.DOCUMENT_PERMISSION_LEVELS.LIMITED) {
+        //         sheetTemplate = "modules/masks-newgeneration-sheets/templates/actor-sheet-limited.hbs";
+        //     }
+        // }
         return sheetTemplate;
     }
 
     static get defaultOptions() {
         let options = {
-            classes: ["pbta", "sheet", "actor", "masks"]
+            classes: ["pbta", "sheet", "actor", "npc", "masks"],
+            tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "moves" }],
+            scrollY: [".window-content"],
         };
         return mergeObject(super.defaultOptions, options);
     }
@@ -36,46 +35,38 @@ export class MasksPbtASheet extends PbtaActorSheet {
         data.isObserver = this.actor.permission === CONST.DOCUMENT_PERMISSION_LEVELS.OBSERVER;
         data.influences = this.actor.getFlag(MasksPbtaSheets.MODULEID, "influences");
         if (!data.influences && this.isEditable) { this.actor.setFlag(MasksPbtaSheets.MODULEID, "influences", []); data.influences = []; }
-        data.customResources = this.actor.data.data.resources.custom;
-        data.customStats = {};
+        data.customResources = this.actor.data.data.details.custom;
         data.customConditions = {};
 
         if (data.customResources) {
             for (let [key, val] of Object.entries(data.customResources)) {
-                data.customResources[key].attrName = `data.resources.custom.${key}`;
-                data.customResources[key].attrValue = `data.resources.custom.${key}.value`;
+                data.customResources[key].attrName = `data.details.custom.${key}`;
+                data.customResources[key].attrValue = `data.details.custom.${key}.value`;
 
-                if (val.resourceType === "stat") {
-                    data.customStats[key] = {
-                        label: val.name,
-                        secondaryValue: val.secondaryValue,
-                        value: val.value,
-                        translation: val.name,
-                        attrName: `data.resources.custom.${key}`,
-                        attrValue: `data.resources.custom.${key}.value`
-                    };
-                } else if (val.resourceType === "condition") {
+                if (val.resourceType === "condition") {
                     data.customConditions[key] = {
                         label: val.name,
                         value: val.value,
                         translation: val.name,
-                        attrName: `data.resources.custom.${key}`,
-                        attrValue: `data.resources.custom.${key}.value`
+                        attrName: `data.details.custom.${key}`,
+                        attrValue: `data.details.custom.${key}.value`
                     };
                 }
             }
         }
 
-        data.labelShiftDown = this.labelShiftDown;
-        data.labelShiftUp = this.labelShiftUp;
-
         //Dynamic localization fields
-
         for (let key of Object.keys(data.data.attrLeft.conditions.options)) {
             data.data.attrLeft.conditions.options[key].translation = game.i18n.localize(`MASKS-SHEETS.CONDITIONS.${data.data.attrLeft.conditions.options[key].label}`);
         }
         for (let key of Object.keys(data.data.stats)) {
             data.data.stats[key].translation = game.i18n.localize(`MASKS-SHEETS.STATS.${key}`);
+        }
+
+        //Add misc items into "Other" category
+        let miscItems = this.actor.items.filter(i => i.type !== "npcMove" && i.type !== "equipment");
+        if (miscItems) {
+            data.moves["PBTA_OTHER"] = data.moves["PBTA_OTHER"].concat(miscItems);
         }
 
         return data;
@@ -91,8 +82,6 @@ export class MasksPbtASheet extends PbtaActorSheet {
         html.find('[data-influence-action]').on('click', this._onInfluenceAction.bind(this));
         html.find('.resource-masks').on('click', this._onResourcesClick.bind(this));
         html.find(".custom-control").on('click', this._onCustomResourceAction.bind(this));
-        html.find('.masks-shift').on('change', this._onLabelShiftChange.bind(this));
-        html.find('.masks-shift-roll').on('click', this._onLabelShiftClick.bind(this));
     }
 
     async _onResourcesClick(event) {
@@ -210,7 +199,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
                 dialog.render(true);
                 break;
             case "delete":
-                let resourceName = this.actor.data.data.resources.custom[id].name;
+                let resourceName = this.actor.data.data.details.custom[id].name;
                 dialog = new Dialog({
                     title: game.i18n.localize("MASKS-SHEETS.DIALOG.Confirm-Delete"),
                     content: `${game.i18n.localize("MASKS-SHEETS.DIALOG.Confirm-Text")} <b>${resourceName}</b>.`,
@@ -218,7 +207,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
                         yes: {
                             label: game.i18n.localize("MASKS-SHEETS.Confirm"),
                             callback: async (html) => {
-                                let propName = `data.resources.custom.-=${id}`;
+                                let propName = `data.details.custom.-=${id}`;
                                 await this.actor.update({[propName]: null});
                             }
                         },
@@ -233,85 +222,5 @@ export class MasksPbtASheet extends PbtaActorSheet {
             default:
                 break;
         }
-    }
-
-    async _onLabelShiftChange(event) {
-        event.preventDefault();
-
-        if (!this.isEditable) { return; }
-
-        const clickedElement = $(event.currentTarget);
-        const action = clickedElement.data().action;
-        
-        switch (action) {
-            case "shift-down":
-                this.labelShiftDown = clickedElement.val();
-                break;
-            case "shift-up":
-                this.labelShiftUp = clickedElement.val();
-                break;
-            default:
-                break;
-        }
-    }
-
-    async _onLabelShiftClick(event) {
-        event.preventDefault();
-        if (!this.isEditable) { return; }
-
-        let statUp = this.actor.data.data.stats[this.labelShiftUp];
-        let statDown = this.actor.data.data.stats[this.labelShiftDown];
-        let isCustomUp = false;
-        let isCustomDown = false;
-
-        console.log(this.labelShiftUp, this.labelShiftDown);
-        
-        if (!statUp && this.labelShiftUp !== 'none') { isCustomUp = true; statUp = this.actor.data.data.resources.custom[this.labelShiftUp]; }
-        if (!statDown && this.labelShiftDown !== 'none') { isCustomDown = true; statDown = this.actor.data.data.resources.custom[this.labelShiftDown]; }
-
-        if (!statUp && !statDown) { return; }
-        let statUpdate = {};
-        let performShift = true;
-
-        let content = `<h2 class="cell__title">${this.actor.name} ${game.i18n.localize('MASKS-SHEETS.Label-Shifts')}</h2>`;
-        if (statUp) {
-            statUp.value++;
-
-            if (!isCustomUp) { 
-                content += `<b style="color: darkred">${statUp.label} ${game.i18n.localize('MASKS-SHEETS.Shifts-Up')}</b><br/>`;
-                statUpdate[`data.stats.${this.labelShiftUp}.value`] = statUp.value; 
-            } else { 
-                content += `<b style="color: darkred">${this.actor.data.data.resources.custom[this.labelShiftUp].name} ${game.i18n.localize('MASKS-SHEETS.Shifts-Up')}</b><br/>`;
-                statUpdate[`data.resources.custom.${this.labelShiftUp}.value`] = statUp.value; 
-            }
-        }
-        if (statDown) {
-            statDown.value--;
-
-            if (!isCustomDown) {
-                content += `<b style="color: red">${statDown.label} ${game.i18n.localize('MASKS-SHEETS.Shifts-Down')}</b>`;
-                statUpdate[`data.stats.${this.labelShiftDown}.value`] = statDown.value;
-            } else {
-                content += `<b style="color: red">${this.actor.data.data.resources.custom[this.labelShiftDown].name} ${game.i18n.localize('MASKS-SHEETS.Shifts-Down')}</b>`;
-                statUpdate[`data.resources.custom.${this.labelShiftDown}.value`] = statDown.value; 
-            }
-        }
-
-        if (statUp?.value > 3 || statDown?.value < -3) {
-            performShift = false;
-            if (statUp) { statUp.value--; }
-            if (statDown) { statDown.value++; }
-            content = `<h2 class="cell__title">${this.actor.name} ${game.i18n.localize('MASKS-SHEETS.Label-Shifts')}</h2><p>${game.i18n.localize('MASKS-SHEETS.Label-Shift-Failed')}</p>`;
-        }
-
-        await ChatMessage.create({
-            author: game.userId,
-            content: content,
-            speaker: ChatMessage.getSpeaker({actor: this.actor}),
-            type: CONST.CHAT_MESSAGE_TYPES.OTHER
-        });
-
-        this.labelShiftUp = this.labelShiftDown = 'none';
-        if (performShift) { await this.actor.update(statUpdate); } else { this.render(false); }
     }
 }

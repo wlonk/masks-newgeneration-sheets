@@ -4,7 +4,7 @@
     <header class="sheet-header">
       <div class="sheet-header__fields">
         <input class="input--title" name="name" type="text" value="{{actor.name}}" placeholder="Name" />
-        <input class="input--title" name="heroName.value" type="text" value="{{data.attrTop.heroName.value}}"
+        <input class="input--title" name="data.attrTop.heroName.value" type="text" value="{{data.attrTop.heroName.value}}"
           placeholder="{{data.attrTop.heroName.label}}" />
         <input class="input--title charplaybook" name="data.details.playbook" type="text"
           value="{{data.details.playbook}}" placeholder="Playbook" list="playbooks" />
@@ -41,6 +41,21 @@
               {{/if}}
             </li>
             {{/each}}
+            {{#each customStats as |stat key|}}
+            <li class="stat flexrow" data-stat="{{key}}">
+              <span class="stat-icon stat-rollable custom-rollable" data-mod="{{stat.value}}" data-label="{{stat.name}}"><i
+                  class="fas fa-dice-d6"></i> <i class="fas fa-dice-d6"></i></span>
+              <label for="{{stat.attrName}}" class="cell__title stat-rollable custom-rollable" data-mod="{{stat.attrValue}}"
+                data-label="{{stat.label}}">{{ stat.label }}</label>
+              <input class="stat-value" type="text" name="{{stat.attrValue}}"
+                value="{{#if stat.value}}{{numberFormat stat.value decimals=0 sign=true}}{{else}}0{{/if}}"
+                data-dtype="Number" />
+              {{#if ../data.statToggle}}
+              <label class="stat-toggle checkbox"><input type="checkbox" name="data.resources.custom.{{key}}.secondaryValue" {{checked
+                  stat.secondaryValue}} />{{../data.statToggle.label}}</label>
+              {{/if}}
+            </li>
+            {{/each}}
             {{#unless isEditable}}
             <li class="stat flexrow masks-label-shift">
               <label class="cell__title masks-shift-roll">
@@ -54,6 +69,9 @@
                   {{#unless (eq key ../labelShiftDown)}}<option value="{{key}}">{{stat.label}}</option>{{/unless}}
                   {{/unless}}
                   {{/each}}
+                  {{#each customStats as |stat key|}}
+                  {{#unless (eq key ../labelShiftDown)}}<option value="{{key}}" data-isCustom="true">{{stat.label}}</option>{{/unless}}
+                  {{/each}}
                   {{/select}}
                 </select>
                 <select class="masks-shift masks-shift-down" name="masks-shift-down" data-action="shift-down" title="{{localize "MASKS-SHEETS.Shift-Down"}}">
@@ -62,6 +80,9 @@
                   {{#unless stat.toggle}}
                   {{#unless (eq key ../labelShiftUp)}}<option value="{{key}}">{{stat.label}}</option>{{/unless}}
                   {{/unless}}
+                  {{/each}}
+                  {{#each customStats as |stat key|}}
+                  {{#unless (eq key ../labelShiftUp)}}<option value="{{key}}" data-isCustom="true">{{stat.label}}</option>{{/unless}}
                   {{/each}}
                   {{/select}}
                 </select>
@@ -140,6 +161,13 @@
                   <input type="checkbox" class="attr-list"
                     name="data.attrLeft.conditions.options.{{optionKey}}.value" {{checked option.value}} />
                   {{option.translation}}
+                </label>
+                {{/each}}
+                {{#each customConditions as |condition key|}}
+                <label>
+                  <input type="checkbox" class="attr-list"
+                    name="{{condition.attrValue}}" {{checked condition.value}} />
+                  {{condition.label}}
                 </label>
                 {{/each}}
               </ul>
@@ -325,7 +353,7 @@
                 <li class="item flexrow" data-influence-id="{{id}}">
                   <div class="influence-name">
                     <img class="influence-icon" data-influence-action="roll" src="modules/masks-newgeneration-unofficial/images/gameicons/shadow-follower-%23ffffff-%233da7db.svg" />
-                    <input type="text" class="influence--name" value="{{name}}" placeholder="{{localize "MASKS.SHEETS.Person-Name"}}" />
+                    <input type="text" class="influence--name" value="{{name}}" placeholder="{{localize "MASKS-SHEETS.Person-Name"}}" />
                   </div>
                   <div class="influence-management">
                     <img class="influence-icon {{#unless hasInfluenceOver}}influence-disabled{{/unless}}" data-influence-action="hasInfluenceOver" src="modules/masks-newgeneration-unofficial/images/gameicons/team-downgrade-%23ffffff-%233da7db.svg" title="{{localize "MASKS-SHEETS.HasInfluence"}}" />

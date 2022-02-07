@@ -12,7 +12,12 @@ export class MasksCustomResourceDialog extends FormApplication {
             "tracker": "MASKS-SHEETS.CUSTOM-RESOURCES.Tracker",
             "numeric": "MASKS-SHEETS.CUSTOM-RESOURCES.Numeric",
             "text": "MASKS-SHEETS.CUSTOM-RESOURCES.Text",
-            "toggle": "MASKS-SHEETS.CUSTOM-RESOURCES.Toggle"
+            "toggle": "MASKS-SHEETS.CUSTOM-RESOURCES.Toggle",
+            "condition": "MASKS-SHEETS.CUSTOM-RESOURCES.Condition"
+        }
+
+        if (this.actor?.type !== 'npc') {
+            this.resourceTypes["stat"] = "MASKS-SHEETS.CUSTOM-RESOURCES.Stat";
         }
 
         if (this.resourceID) {
@@ -75,8 +80,6 @@ export class MasksCustomResourceDialog extends FormApplication {
 
         this.showResourceLimit = (this.resourceType === "tracker" || this.resourceType === "numeric");
 
-        console.log(this);
-
         this.render(false);
     }
 
@@ -102,8 +105,19 @@ export class MasksCustomResourceDialog extends FormApplication {
 
         this.resourceName = this.resourceName.trim();
 
-        if (!this.actor.data.data.resources.custom) {
-            this.actor.data.data.resources.custom = {};
+        let custom = {};
+        if (this.actor.type === "npc") {
+            if (!this.actor.data.data.details.custom) {
+                this.actor.data.data.details.custom = {};
+            }
+
+            custom = this.actor.data.data.details.custom;
+        } else {
+            if (!this.actor.data.data.resources.custom) {
+                this.actor.data.data.resources.custom = {};
+            }
+
+            custom = this.actor.data.data.resources.custom;
         }
 
         validName = this.resourceName.length > 0;
@@ -138,21 +152,22 @@ export class MasksCustomResourceDialog extends FormApplication {
                     defaultValue = "";
                     break;
                 case "toggle":
+                case "condition":
                     defaultValue = false;
                     break;
                 default:
                     defaultValue = 0;
             }
         } else {
-            defaultValue = this.actor.data.data.resources.custom[this.resourceID].value;
-            let currentSteps = this.actor.data.data.resources.custom[this.resourceID].steps;
+            defaultValue = custom[this.resourceID].value;
+            let currentSteps = custom[this.resourceID].steps;
             if (this.resourceLimit != currentSteps.length) {
                 steps = [];
                 for (let i = 0; i < this.resourceLimit; i++) {
                     steps.push(i < currentSteps.length ? currentSteps[i] : false);
                 }
             } else {
-                steps = this.actor.data.data.resources.custom[this.resourceID].steps;
+                steps = custom[this.resourceID].steps;
             }
         }
 
@@ -161,12 +176,17 @@ export class MasksCustomResourceDialog extends FormApplication {
             resourceType: this.resourceType,
             max: this.resourceLimit,
             steps: steps,
-            value: defaultValue
+            value: defaultValue,
+            secondaryValue: false
         }
 
-        this.actor.data.data.resources.custom[customID] = newResource;
+        custom[customID] = newResource;
 
-        await this.actor.update({ "data.resources.custom": this.actor.data.data.resources.custom });
+        if (this.actor.type === "npc") {
+            await this.actor.update({ "data.details.custom": custom });
+        } else {
+            await this.actor.update({ "data.resources.custom": custom });
+        }
 
         this.close();
     }
