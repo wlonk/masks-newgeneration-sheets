@@ -1,4 +1,3 @@
-
 {
     "MASKS-SHEETS": {
         "Abilities": "Pouvoirs",
@@ -19,7 +18,7 @@
             "Label": "États émotionnels"
         },
         "Confirm": "Confirmer",
-        "Create-Custom-Resource": "Créer ressource personnalisée",
+        "Create-Custom-Resource": "Créer une ressource personnalisée",
         "Custom": "Ressources personnalisées",
         "CUSTOM-RESOURCES": {
             "Condition": "État",
@@ -30,8 +29,8 @@
             "Tracker": "Tracker"
         },
         "Delete-Influence": "Supprimer l'influence",
-        "Delete-Item": "Delete Item",
-        "Delete-Custom-Resource": "Supprimer ressource personnalisée",
+        "Delete-Item": "Supprimer l'objet",
+        "Delete-Custom-Resource": "Supprimer la ressource personnalisée",
         "DIALOG": {
             "Confirm-Delete": "Confirmer la suppression de la ressource",
             "Confirm-Text": "Confirmez que vous voulez supprimer la ressource personalisée :",
