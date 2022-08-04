@@ -1,0 +1,88 @@
+
+{
+    "MASKS-SHEETS": {
+        "Abilities": "Pouvoirs",
+        "Advances": "Progression",
+        "Backstory": "Histoire",
+        "Cancel": "Annuler",
+        "CONDITIONS": {
+            "Afraid": "Effrayé",
+            "Afraid (-2 to engage)": "Effrayé (-2 à affronter directement)",
+            "Angry": "Furieux",
+            "Angry (-2 to comfort or pierce)": "Furieux (-2 à réconforter, soutenir et percer le masque)",
+            "Guilty": "Coupable",
+            "Guilty (-2 to provoke or assess)": "Coupable (-2 à provoquer et évaluer la situation)",
+            "Hopeless": "Désespéré",
+            "Hopeless (-2 to unleash)": "Désespéré (-2 à déchaîner ses pouvoirs)",
+            "Insecure": "Démoralisé",
+            "Insecure (-2 to defend or reject)": "Démoralisé (-2 à défendre ou rejeter l'influence)",
+            "Label": "États émotionnels"
+        },
+        "Confirm": "Confirmer",
+        "Create-Custom-Resource": "Créer ressource personnalisée",
+        "Custom": "Ressources personnalisées",
+        "CUSTOM-RESOURCES": {
+            "Condition": "État",
+            "Numeric": "Numérique",
+            "Stat": "Étiquette",
+            "Text": "Texte",
+            "Toggle": "Interrupteur",
+            "Tracker": "Tracker"
+        },
+        "Delete-Influence": "Supprimer l'influence",
+        "Delete-Item": "Delete Item",
+        "Delete-Custom-Resource": "Supprimer ressource personnalisée",
+        "DIALOG": {
+            "Confirm-Delete": "Confirmer la suppression de la ressource",
+            "Confirm-Text": "Confirmez que vous voulez supprimer la ressource personalisée :",
+            "Limit": "Limite",
+            "Limit-Hint": "Pour les ressources tracker/numérique. Un tracker doit avoir une valeur minimum de 2, et une configuration à 0 pour numérique signifie aucune limite.",
+            "Name": "Nom de la ressource",
+            "Type": "Type de ressource"
+        },
+        "Edit-Custom-Condition": "Modifiez un état émotionnel sous États émtionnels !",
+        "Edit-Custom-Resource": "Modifier une ressource personnalisée",
+        "Edit-Custom-Stat": "Modifiez la valeur de l'étiquette dans l'encart Étiquettes !",
+        "Edit-Item": "Modifier un objet",
+        "Influence-Lock": "Verrouiller cette influence",
+        "Influence-Unlock": "Déverrouiller cette influence",
+        "InfluenceCreate": "Créer une influence",
+        "Influences": "Influences",
+        "HasInfluence": "A de l'influence sur toi",
+        "HaveInfluence": "Tu as de l'influence sur eux",
+        "Label-Shift-Failed": "Pas de modification des étiquettes. A la place, cochez un état émotionnel.",
+        "Label-Shifts": "Modifie ses étiquettes !",
+        "Look": "Apparence",
+        "Moment": "Moment de Vérité",
+        "None": "Aucun",
+        "NPC": {
+            "Abilities": "Pouvoirs",
+            "Drive": "Pulsion"
+        },
+        "Person-Name": "Nom de la personne",
+        "Potential": "Potentiel",
+        "Relationships": "Relations",
+        "Resources": "Ressources",
+        "Shift-Down": "Baisser",
+        "Shift-Up": "Augmenter",
+        "Shifts-Down": "Baisse",
+        "Shifts-Up": "Augmente",
+        "Shift-Labels": "Modifier étiquettes",
+        "STATS": {
+            "danger": "Dangereux",
+            "freak": "Différent",
+            "mundane": "Normal",
+            "savior": "Sauveur",
+            "superior": "Supérieur"
+        },
+        "Submit": "Envoyer",
+        "TheTeam": "Quand notre équipe s'est réunie pour la première fois",
+        "Unlocked": "Débloqué",
+        "WARNINGS": {
+            "Invalid-Limit": "Limite de ressources invalidé.",
+            "Invalid-Name": "Un nom de ressource personnalisée est requis.",
+            "UnlinkedMoves": "Les manoeuvres ne peuvent pas être modifiées tant que ce token n'est pas lié à un acteur.",
+            "UnlinkedResources": "Les ressources ne peuvent pas être modifiées tant que ce token n'est pas lié à un acteur."
+        }
+    }
+}
