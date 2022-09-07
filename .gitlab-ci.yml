@@ -1,0 +1,51 @@
+stages:
+    - build
+    - deploy
+    - upload
+
+workflow:
+    rules:
+        - if: $CI_COMMIT_TAG
+
+variables:
+    PACKAGE_VERSION: "2.0.0"
+    ZIP_FILE_NAME: "masks-newgeneration-sheets-$CI_COMMIT_TAG.zip"
+    RELEASE_DOWNLOAD: "https://gitlab.com/geekswordsman/$CI_PROJECT_PATH/-/releases/$CI_COMMIT_TAG/downloads/masks-newgeneration-sheets-$CI_COMMIT_TAG.zip"
+
+build:
+    image: node:latest
+    stage: build
+    script:
+        - apt-get update
+        - apt-get install zip
+
+        - zip $ZIP_FILE_NAME -r README.md CHANGELOG.md LICENSE module.json assets languages module styles templates
+    artifacts:
+        paths:
+            - $ZIP_FILE_NAME
+            - module.json
+        expire_in: never
+
+release:
+    stage: deploy
+    image: registry.gitlab.com/gitlab-org/release-cli:latest
+    script:
+     - echo 'running release_job'
+
+    release:
+     tag_name: $CI_COMMIT_TAG
+     name: 'Release $CI_COMMIT_TAG'
+     ref: '$CI_COMMIT_TAG'
+     description: 'Package Release'
+     assets:
+      links:
+          - name: '$ZIP_FILE_NAME' 
+            url: https://gitlab.com/geekswordsman/$CI_PROJECT_PATH/-/jobs/artifacts/$CI_COMMIT_TAG/raw/$ZIP_FILE_NAME?job=build
+            filepath: '/$ZIP_FILE_NAME'
+
+
+upload:
+    stage: upload
+    image: curlimages/curl:latest
+    script: 
+     - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file module.json "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/release/latest/module.json"'
