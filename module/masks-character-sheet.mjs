@@ -259,7 +259,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
             default:
                 //Roll
                 const statMod = clickedElement.data().mod;
-                const statKey = clickedElement.parents('[data-stat]')?.data()?.stat;
+                //const statKey = clickedElement.parents('[data-stat]')?.data()?.stat;
                 const statLabel = clickedElement.data().label;
                 
                 let templateData = {
@@ -267,7 +267,11 @@ export class MasksPbtASheet extends PbtaActorSheet {
                   resultRangeNeeded: true
                 };
 
-                this.actor.data.data.stats[statLabel] = { label: statLabel, value: statMod, toggle: false };
+                if(isNewerVersion(MasksPbtaSheets.FOUNDRY_VERSION, "10")) {
+                    this.actor.system.stats[statLabel] = { label: statLabel, value: statMod, toggle: false };
+                } else {
+                    this.actor.data.data.stats[statLabel] = { label: statLabel, value: statMod, toggle: false };
+                }
           
                 PbtaRolls.rollMove({actor: this.actor, data: null, formula: statLabel, templateData: templateData});
           

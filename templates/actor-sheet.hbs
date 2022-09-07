@@ -43,7 +43,7 @@
             {{/each}}
             {{#each customStats as |stat key|}}
             <li class="stat flexrow" data-stat="{{key}}">
-              <span class="stat-icon stat-rollable custom-rollable" data-mod="{{stat.value}}" data-label="{{stat.name}}"><i
+              <span class="stat-icon stat-rollable custom-rollable" data-mod="{{stat.value}}" data-label="{{stat.label}}"><i
                   class="fas fa-dice-d6"></i> <i class="fas fa-dice-d6"></i></span>
               <label for="{{stat.attrName}}" class="cell__title stat-rollable custom-rollable" data-mod="{{stat.attrValue}}"
                 data-label="{{stat.label}}">{{ stat.label }}</label>
@@ -156,7 +156,7 @@
             <div class="cell cell--conditions cell--ListMany">
               <label for="system.attrLeft.conditions.value" class="cell__title">{{localize "MASKS-SHEETS.CONDITIONS.Label"}}</label>
               <ul class="cell__checkboxes flexcol">
-                {{#each system.attrLeft.conditions.options as |option optionKey|}}
+                {{#each conditions as |option optionKey|}}
                 <label>
                   <input type="checkbox" class="attr-list"
                     name="system.attrLeft.conditions.options.{{optionKey}}.value" {{checked option.value}} />
