@@ -4,12 +4,12 @@
     <header class="sheet-header">
       <div class="sheet-header__fields">
         <input class="input--title" name="name" type="text" value="{{actor.name}}" placeholder="Name" />
-        <input class="input--title" name="system.attrTop.heroName.value" type="text" value="{{system.attrTop.heroName.value}}"
-          placeholder="{{system.attrTop.heroName.label}}" />
-        <input class="input--title charplaybook" name="system.details.playbook" type="text"
-          value="{{system.details.playbook}}" placeholder="Playbook" list="playbooks" />
+        <input class="input--title" name="data.attrTop.heroName.value" type="text" value="{{data.attrTop.heroName.value}}"
+          placeholder="{{data.attrTop.heroName.label}}" />
+        <input class="input--title charplaybook" name="data.details.playbook" type="text"
+          value="{{data.details.playbook}}" placeholder="Playbook" list="playbooks" />
         <datalist id="playbooks">
-          {{#each system.playbooks as |playbook id|}}
+          {{#each data.playbooks as |playbook id|}}
           <option value="{{playbook}}" />
           {{/each}}
         </datalist>
@@ -26,18 +26,18 @@
 
         <div class="cell cell--stats">
           <ol class="stats-list">
-            {{#each system.stats as |stat key|}}
+            {{#each data.stats as |stat key|}}
             <li class="stat flexrow" data-stat="{{key}}">
               <span class="stat-icon stat-rollable rollable" data-mod="{{stat.value}}" data-label="{{stat.label}}"><i
                   class="fas fa-dice-d6"></i> <i class="fas fa-dice-d6"></i></span>
-              <label for="system.stats.{{key}}.value" class="cell__title stat-rollable rollable" data-mod="{{stat.value}}"
+              <label for="data.stats.{{key}}.value" class="cell__title stat-rollable rollable" data-mod="{{stat.value}}"
                 data-label="{{stat.label}}">{{ stat.translation }}</label>
-              <input class="stat-value" type="text" name="system.stats.{{key}}.value"
+              <input class="stat-value" type="text" name="data.stats.{{key}}.value"
                 value="{{#if stat.value}}{{numberFormat stat.value decimals=0 sign=true}}{{else}}0{{/if}}"
                 data-dtype="Number" />
-              {{#if ../system.statToggle}}
-              <label class="stat-toggle checkbox"><input type="checkbox" name="system.stats.{{key}}.toggle" {{checked
-                  stat.toggle}} />{{../system.statToggle.label}}</label>
+              {{#if ../data.statToggle}}
+              <label class="stat-toggle checkbox"><input type="checkbox" name="data.stats.{{key}}.toggle" {{checked
+                  stat.toggle}} />{{../data.statToggle.label}}</label>
               {{/if}}
             </li>
             {{/each}}
@@ -50,9 +50,9 @@
               <input class="stat-value" type="text" name="{{stat.attrValue}}"
                 value="{{#if stat.value}}{{numberFormat stat.value decimals=0 sign=true}}{{else}}0{{/if}}"
                 data-dtype="Number" />
-              {{#if ../system.statToggle}}
-              <label class="stat-toggle checkbox"><input type="checkbox" name="system.resources.custom.{{key}}.secondaryValue" {{checked
-                  stat.secondaryValue}} />{{../system.statToggle.label}}</label>
+              {{#if ../data.statToggle}}
+              <label class="stat-toggle checkbox"><input type="checkbox" name="data.resources.custom.{{key}}.secondaryValue" {{checked
+                  stat.secondaryValue}} />{{../data.statToggle.label}}</label>
               {{/if}}
             </li>
             {{/each}}
@@ -64,7 +64,7 @@
               <div>
                 <select class="masks-shift masks-shift-up" name="masks-shift-up" data-action="shift-up" title="{{localize "MASKS-SHEETS.Shift-Up"}}">
                   {{#select labelShiftUp}}<option value="none">{{localize "MASKS-SHEETS.None"}}</option>
-                  {{#each system.stats as |stat key|}}
+                  {{#each data.stats as |stat key|}}
                   {{#unless stat.toggle}}
                   {{#unless (eq key ../labelShiftDown)}}<option value="{{key}}">{{stat.label}}</option>{{/unless}}
                   {{/unless}}
@@ -76,7 +76,7 @@
                 </select>
                 <select class="masks-shift masks-shift-down" name="masks-shift-down" data-action="shift-down" title="{{localize "MASKS-SHEETS.Shift-Down"}}">
                   {{#select labelShiftDown}}<option value="none">{{localize "MASKS-SHEETS.None"}}</option>
-                  {{#each system.stats as |stat key|}}
+                  {{#each data.stats as |stat key|}}
                   {{#unless stat.toggle}}
                   {{#unless (eq key ../labelShiftUp)}}<option value="{{key}}">{{stat.label}}</option>{{/unless}}
                   {{/unless}}
@@ -98,47 +98,47 @@
         <div class="cell cell--aesthetics">
           <div class="cell cell--attributes-top">
             <div class="cell cell--xp cell--Xp">
-              <label for="system.attrTop.xp.value" class="cell__title">{{localize "MASKS-SHEETS.Potential"}}</label>
+              <label for="data.attrTop.xp.value" class="cell__title">{{localize "MASKS-SHEETS.Potential"}}</label>
               <div class="cell__clock">
-                {{#if system.attrTop.xp.steps}}
-                {{#each system.attrTop.xp.steps as |step stepKey|}}
-                <input type="radio" class="attr-xp" data-name="system.attrTop.xp" data-step="{{stepKey}}" {{checked
+                {{#if data.attrTop.xp.steps}}
+                {{#each data.attrTop.xp.steps as |step stepKey|}}
+                <input type="radio" class="attr-xp" data-name="data.attrTop.xp" data-step="{{stepKey}}" {{checked
                   step}}>
                 {{/each}}
                 {{/if}}
               </div>
             </div>
             <div class="cell cell--advances cell--Number">
-              <label for="system.attrTop.advances.value" class="cell__title">{{localize "MASKS-SHEETS.Advances"}}</label>
+              <label for="data.attrTop.advances.value" class="cell__title">{{localize "MASKS-SHEETS.Advances"}}</label>
               <div class="cell__wrapper">
                 <button class="resource-masks resource-decrease" data-action="decrease"
-                  data-attr="system.attrTop.advances.value">-</button>
-                <input type="number" name="system.attrTop.advances.value"
-                  value="{{numberFormat system.attrTop.advances.value decimals=0 sign=false}}" data-dtype="Number" />
+                  data-attr="data.attrTop.advances.value">-</button>
+                <input type="number" name="data.attrTop.advances.value"
+                  value="{{numberFormat data.attrTop.advances.value decimals=0 sign=false}}" data-dtype="Number" />
                 <button class="resource-masks resource-increase" data-action="increase"
-                  data-attr="system.attrTop.advances.value">+</button>
+                  data-attr="data.attrTop.advances.value">+</button>
               </div>
             </div>
             <div class="cell cell--forward">
               <label class="cell__title">{{localize "PBTA.Forward"}}</label>
               <div class="cell__wrapper">
                 <button class="resource-masks resource-decrease" data-action="decrease"
-                  data-attr="system.resources.forward.value">-</button>
-                <input type="number" name="system.resources.forward.value"
-                  value="{{numberFormat system.resources.forward.value decimals=0 sign=false}}" data-dtype="Number" />
+                  data-attr="data.resources.forward.value">-</button>
+                <input type="number" name="data.resources.forward.value"
+                  value="{{numberFormat data.resources.forward.value decimals=0 sign=false}}" data-dtype="Number" />
                 <button class="resource-masks resource-increase" data-action="increase"
-                  data-attr="system.resources.forward.value">+</button>
+                  data-attr="data.resources.forward.value">+</button>
               </div>
             </div>
             <div class="cell cell--ongoing">
               <label class="cell__title">{{localize "PBTA.Ongoing"}}</label>
               <div class="cell__wrapper">
                 <button class="resource-masks resource-decrease" data-action="decrease"
-                  data-attr="system.resources.ongoing.value">-</button>
-                <input type="number" name="system.resources.ongoing.value"
-                  value="{{numberFormat system.resources.ongoing.value decimals=0 sign=false}}" data-dtype="Number" />
+                  data-attr="data.resources.ongoing.value">-</button>
+                <input type="number" name="data.resources.ongoing.value"
+                  value="{{numberFormat data.resources.ongoing.value decimals=0 sign=false}}" data-dtype="Number" />
                 <button class="resource-masks resource-increase" data-action="increase"
-                  data-attr="system.resources.ongoing.value">+</button>
+                  data-attr="data.resources.ongoing.value">+</button>
               </div>
             </div>
           </div>
@@ -154,12 +154,12 @@
         <div class="cell cell--aesthetics">
           <div class="cell cell--attributes-left">
             <div class="cell cell--conditions cell--ListMany">
-              <label for="system.attrLeft.conditions.value" class="cell__title">{{localize "MASKS-SHEETS.CONDITIONS.Label"}}</label>
+              <label for="data.attrLeft.conditions.value" class="cell__title">{{localize "MASKS-SHEETS.CONDITIONS.Label"}}</label>
               <ul class="cell__checkboxes flexcol">
                 {{#each conditions as |option optionKey|}}
                 <label>
                   <input type="checkbox" class="attr-list"
-                    name="system.attrLeft.conditions.options.{{optionKey}}.value" {{checked option.value}} />
+                    name="data.attrLeft.conditions.options.{{optionKey}}.value" {{checked option.value}} />
                   {{option.translation}}
                 </label>
                 {{/each}}
@@ -173,9 +173,9 @@
               </ul>
             </div>
             <div class="cell cell--moment cell--LongText">
-              <label for="system.attrLeft.moment.value" class="cell__title">{{localize "MASKS-SHEETS.Moment"}}</label>
-              <label><input type="checkbox" name="system.attrTop.momentUnlocked.value" {{checked system.attrTop.momentUnlocked.value}} /> {{localize "MASKS-SHEETS.Unlocked"}}</label>
-              {{editor system.attrLeft.moment.value target="system.attrLeft.moment.value" button=true owner=owner
+              <label for="data.attrLeft.moment.value" class="cell__title">{{localize "MASKS-SHEETS.Moment"}}</label>
+              <label><input type="checkbox" name="data.attrTop.momentUnlocked.value" {{checked data.attrTop.momentUnlocked.value}} /> {{localize "MASKS-SHEETS.Unlocked"}}</label>
+              {{editor content=data.attrLeft.moment.value target="data.attrLeft.moment.value" button=true owner=owner
               editable=editable}}
             </div>
           </div>
@@ -204,28 +204,28 @@
             <div class="sheet-tab">
               <div class="cell cell--bio">
                 <label class="cell__title">{{localize "MASKS-SHEETS.Look"}}</label>
-                {{editor system.attrLeft.look.value target="system.attrLeft.look.value" button=true owner=owner
+                {{editor content=data.attrLeft.look.value target="data.attrLeft.look.value" button=true owner=owner
                 editable=editable}}
               </div>
               <div class="cell cell--bio">
                 <label class="cell__title">{{localize "MASKS-SHEETS.Abilities"}}</label>
-                {{editor system.attrLeft.abilities.value target="system.attrLeft.abilities.value" button=true owner=owner
+                {{editor content=data.attrLeft.abilities.value target="data.attrLeft.abilities.value" button=true owner=owner
                 editable=editable}}
               </div>
               <div class="cell cell--bio">
                 <label class="cell__title">{{localize "MASKS-SHEETS.Backstory"}}</label>
-                {{editor system.details.biography target="system.details.biography" button=true owner=owner
+                {{editor content=data.details.biography target="data.details.biography" button=true owner=owner
                 editable=editable}}
               </div>
               {{#unless isObserver}}
               <div class="cell cell--bio">
                 <label class="cell__title">{{localize "MASKS-SHEETS.TheTeam"}}</label>
-                {{editor system.details.team target="system.details.team" button=true owner=owner
+                {{editor content=data.details.team target="data.details.team" button=true owner=owner
                 editable=editable}}
               </div>
               <div class="cell cell--bio">
                 <label class="cell__title">{{localize "MASKS-SHEETS.Relationships"}}</label>
-                {{editor system.details.relationships target="system.details.relationships" button=true owner=owner
+                {{editor content=data.details.relationships target="data.details.relationships" button=true owner=owner
                 editable=editable}}
               </div>
               {{/unless}}
@@ -237,7 +237,7 @@
             <section class="sheet-tab">
 
               <section class="sheet-notifications">
-                {{#if system.isToken}}
+                {{#if data.isToken}}
                 <div class="cell__title warning small-text">{{localize "MASKS-SHEETS.WARNINGS.UnlinkedMoves"}}</div>
                 {{/if}}
               </section>
@@ -258,7 +258,7 @@
                 <ol class="items-list">
                   {{#each moveGroup as |item id|}}
                   <li class="item flexrow" data-item-id="{{item._id}}" draggable="true">
-                    {{> "systems/pbta/templates/parts/sheet-moves.html" item=item statSettings=../../system.statSettings}}
+                    {{> "systems/pbta/templates/parts/sheet-moves.html" item=item statSettings=../../data.statSettings}}
                   </li>
                   {{/each}}
                 </ol>
@@ -271,7 +271,7 @@
           {{!-- Owned Equipment Tab --}}
           <div class="tab equipment" data-group="primary" data-tab="equipment">
             <section class="sheet-notifications" style="margin-top:10px;">
-              {{#if system.isToken}}
+              {{#if data.isToken}}
               <div class="cell__title warning small-text">{{localize "MASKS-SHEETS.WARNINGS.UnlinkedResources"}}</div>
               {{/if}}
             </section>
@@ -315,20 +315,20 @@
                   </h4>
 
                   <div class="item-meta tags">
-                    {{#if item.system.uses }}<span class="tag">{{localize "PBTA.Uses"}}:
-                      {{item.system.uses}}</span>{{/if}}
-                    {{#if item.system.quantity }}<span class="tag">{{localize "PBTA.Qty"}}:
-                      {{item.system.quantity}}</span>{{/if}}
-                    {{#if item.system.weight }}<span class="tag">{{localize "PBTA.Wt"}}:
-                      {{item.system.weight}}</span>{{/if}}
+                    {{#if item.data.uses }}<span class="tag">{{localize "PBTA.Uses"}}:
+                      {{item.data.uses}}</span>{{/if}}
+                    {{#if item.data.quantity }}<span class="tag">{{localize "PBTA.Qty"}}:
+                      {{item.data.quantity}}</span>{{/if}}
+                    {{#if item.data.weight }}<span class="tag">{{localize "PBTA.Wt"}}:
+                      {{item.data.weight}}</span>{{/if}}
                   </div>
                   <div class="item-controls">
                     <a class="item-control item-edit" title="{{localize "MASKS-SHEETS.Edit-Item"}}"><i class="fas fa-edit"></i></a>
                     <a class="item-control item-delete" title="{{localize "MASKS-SHEETS.Delete-Item"}}"><i class="fas fa-trash"></i></a>
                   </div>
                   <div class="item-description">
-                    {{#if item.system.tags}}{{{pbtaTags item.system.tags}}}{{/if}}
-                    <div class="description">{{{item.system.description}}}</div>
+                    {{#if item.data.tags}}{{{pbtaTags item.data.tags}}}{{/if}}
+                    <div class="description">{{{item.data.description}}}</div>
                   </div>
                 </li>
                 {{/each}}

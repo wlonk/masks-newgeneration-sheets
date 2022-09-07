@@ -4,12 +4,12 @@
     <header class="sheet-header">
       <div class="sheet-header__fields">
         <input class="input--title" name="name" type="text" value="{{actor.name}}" placeholder="Name" />
-        <input class="input--title" name="heroName.value" type="text" value="{{system.attrTop.heroName.value}}"
-          placeholder="{{system.attrTop.heroName.label}}" />
-        <input class="input--title charplaybook" name="system.details.playbook" type="text"
-          value="{{system.details.playbook}}" placeholder="Playbook" list="playbooks" />
+        <input class="input--title" name="heroName.value" type="text" value="{{data.attrTop.heroName.value}}"
+          placeholder="{{data.attrTop.heroName.label}}" />
+        <input class="input--title charplaybook" name="data.details.playbook" type="text"
+          value="{{data.details.playbook}}" placeholder="Playbook" list="playbooks" />
         <datalist id="playbooks">
-          {{#each system.playbooks as |playbook id|}}
+          {{#each data.playbooks as |playbook id|}}
           <option value="{{playbook}}" />
           {{/each}}
         </datalist>
@@ -37,12 +37,12 @@
             <div class="sheet-tab">
               <div class="cell cell--bio">
                 <label class="cell__title">{{localize "MASKS-SHEETS.Look"}}</label>
-                {{editor system.attrLeft.look.value target="system.attrLeft.look.value" button=true owner=owner
+                {{editor content=data.attrLeft.look.value target="data.attrLeft.look.value" button=true owner=owner
                 editable=editable}}
               </div>
               <div class="cell cell--bio">
                 <label class="cell__title">{{localize "MASKS-SHEETS.Abilities"}}</label>
-                {{editor system.attrLeft.abilities.value target="system.attrLeft.abilities.value" button=true owner=owner
+                {{editor content=data.attrLeft.abilities.value target="data.attrLeft.abilities.value" button=true owner=owner
                 editable=editable}}
               </div>
             </div>

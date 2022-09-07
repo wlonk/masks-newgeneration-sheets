@@ -1,3 +1,6 @@
+#1.3.0
+ - Foundry v10 Compatibility!
+
 #1.2.0
  - Added NPC Sheet!
  - Added new custom resource types - Conditions and Stats

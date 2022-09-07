@@ -1,6 +1,13 @@
+import { MasksPbtaSheets } from "./masks-sheets.mjs";
+
 export class MasksCustomResourceDialog extends FormApplication {
+    #dataPath = "data.data";
+    #shortPath = "data";
+
     constructor(object, options) {
         super(object, options);
+
+        if (isNewerVersion(MasksPbtaSheets.FOUNDRY_VERSION, "10")) { this.#dataPath = this.#shortPath = "system"; }
 
         this.actor = object?.actor;
         this.resourceID = object?.id;
@@ -20,10 +27,12 @@ export class MasksCustomResourceDialog extends FormApplication {
             this.resourceTypes["stat"] = "MASKS-SHEETS.CUSTOM-RESOURCES.Stat";
         }
 
+        const actorDataPath = isNewerVersion(MasksPbtaSheets.FOUNDRY_VERSION, "10") ? this.actor[this.#dataPath] : this.actor.data[this.#shortPath];
+
         if (this.resourceID) {
-            this.resourceName = this.actor.data.data.resources.custom[this.resourceID].name;
-            this.resourceLimit = this.actor.data.data.resources.custom[this.resourceID].max;
-            this.resourceType = this.actor.data.data.resources.custom[this.resourceID].resourceType;
+            this.resourceName = actorDataPath.resources.custom[this.resourceID].name;
+            this.resourceLimit = actorDataPath.resources.custom[this.resourceID].max;
+            this.resourceType = actorDataPath.resources.custom[this.resourceID].resourceType;
         }
 
         this.showResourceLimit = (this.resourceType === "tracker" || this.resourceType === "numeric");
@@ -104,20 +113,21 @@ export class MasksCustomResourceDialog extends FormApplication {
         let validLimit = true;
 
         this.resourceName = this.resourceName.trim();
+        const actorDataPath = isNewerVersion(MasksPbtaSheets.FOUNDRY_VERSION, "10") ? this.actor[this.#dataPath] : this.actor.data[this.#shortPath];
 
         let custom = {};
         if (this.actor.type === "npc") {
-            if (!this.actor.data.data.details.custom) {
-                this.actor.data.data.details.custom = {};
+            if (!actorDataPath.details.custom) {
+                actorDataPath.details.custom = {};
             }
 
-            custom = this.actor.data.data.details.custom;
+            custom = actorDataPath.details.custom;
         } else {
-            if (!this.actor.data.data.resources.custom) {
-                this.actor.data.data.resources.custom = {};
+            if (!actorDataPath.resources.custom) {
+                actorDataPath.resources.custom = {};
             }
 
-            custom = this.actor.data.data.resources.custom;
+            custom = actorDataPath.resources.custom;
         }
 
         validName = this.resourceName.length > 0;
@@ -182,11 +192,15 @@ export class MasksCustomResourceDialog extends FormApplication {
 
         custom[customID] = newResource;
 
+        let update = {};
+ 
         if (this.actor.type === "npc") {
-            await this.actor.update({ "data.details.custom": custom });
+            update[`${this.#shortPath}.details.custom`] = custom;
         } else {
-            await this.actor.update({ "data.resources.custom": custom });
+            update[`${this.#shortPath}.resources.custom`] = custom;
         }
+
+        await this.actor.update(update);
 
         this.close();
     }
