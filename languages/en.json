@@ -1,6 +1,14 @@
 {
     "MASKS-SHEETS": {
         "Abilities": "Abilities and Descripton of Powers",
+        "ABOUT": {
+            "About": "About",
+            "Created-By": "Created By",
+            "Live-Support": "Live Support",
+            "Project-Page": "Project Page",
+            "Support-Creator": "Support the Creator!",
+            "Title": "About Masks! Unofficial Sheets"
+        },
         "Advances": "Advances",
         "Backstory": "Backstory",
         "Cancel": "Cancel",

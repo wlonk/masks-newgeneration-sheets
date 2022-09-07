@@ -2,22 +2,28 @@ import { PbtaActorSheet } from "../../../systems/pbta/module/actor/actor-sheet.j
 import { PbtaRolls } from "../../../systems/pbta/module/rolls.js";
 import { MasksPbtaSheets } from "./masks-sheets.mjs";
 import { MasksCustomResourceDialog } from "./masks-custom-resource-dialog.mjs";
+import { Logger } from "./logger/logger.mjs";
 
 export class MasksPbtASheet extends PbtaActorSheet {
+    #dataPath = "data.data";
+    #shortPath = "data";
+
     constructor(data, context) {
         super(data, context);
 
         this.labelShiftDown = "none";
         this.labelShiftUp = "none";
+
+        if (isNewerVersion(MasksPbtaSheets.FOUNDRY_VERSION, "10")) { this.#dataPath = this.#shortPath = "system"; }
     }
 
     get template() {
         //Decision making based on permission level
-        let sheetTemplate = "modules/masks-newgeneration-sheets/templates/actor-sheet.hbs";
+        let sheetTemplate = `modules/masks-newgeneration-sheets/templates/actor-sheet.hbs`;
         if (!this.isOwner && !this.isEditable) {
             //observer, or limited?
             if (this.actor.permission === CONST.DOCUMENT_PERMISSION_LEVELS.LIMITED) {
-                sheetTemplate = "modules/masks-newgeneration-sheets/templates/actor-sheet-limited.hbs";
+                sheetTemplate = `modules/masks-newgeneration-sheets/templates/actor-sheet-limited.hbs`;
             }
         }
         return sheetTemplate;
@@ -36,14 +42,14 @@ export class MasksPbtASheet extends PbtaActorSheet {
         data.isObserver = this.actor.permission === CONST.DOCUMENT_PERMISSION_LEVELS.OBSERVER;
         data.influences = this.actor.getFlag(MasksPbtaSheets.MODULEID, "influences");
         if (!data.influences && this.isEditable) { this.actor.setFlag(MasksPbtaSheets.MODULEID, "influences", []); data.influences = []; }
-        data.customResources = this.actor.data.data.resources.custom;
+        data.customResources = this.actor[this.#dataPath].resources.custom;
         data.customStats = {};
         data.customConditions = {};
 
         if (data.customResources) {
             for (let [key, val] of Object.entries(data.customResources)) {
-                data.customResources[key].attrName = `data.resources.custom.${key}`;
-                data.customResources[key].attrValue = `data.resources.custom.${key}.value`;
+                data.customResources[key].attrName = `${this.#shortPath}.resources.custom.${key}`;
+                data.customResources[key].attrValue = `${this.#shortPath}.resources.custom.${key}.value`;
 
                 if (val.resourceType === "stat") {
                     data.customStats[key] = {
@@ -51,16 +57,16 @@ export class MasksPbtASheet extends PbtaActorSheet {
                         secondaryValue: val.secondaryValue,
                         value: val.value,
                         translation: val.name,
-                        attrName: `data.resources.custom.${key}`,
-                        attrValue: `data.resources.custom.${key}.value`
+                        attrName: `${this.#shortPath}.resources.custom.${key}`,
+                        attrValue: `${this.#shortPath}.resources.custom.${key}.value`
                     };
                 } else if (val.resourceType === "condition") {
                     data.customConditions[key] = {
                         label: val.name,
                         value: val.value,
                         translation: val.name,
-                        attrName: `data.resources.custom.${key}`,
-                        attrValue: `data.resources.custom.${key}.value`
+                        attrName: `${this.#shortPath}.resources.custom.${key}`,
+                        attrValue: `${this.#shortPath}.resources.custom.${key}.value`
                     };
                 }
             }
@@ -71,12 +77,16 @@ export class MasksPbtASheet extends PbtaActorSheet {
 
         //Dynamic localization fields
 
-        for (let key of Object.keys(data.data.attrLeft.conditions.options)) {
-            data.data.attrLeft.conditions.options[key].translation = game.i18n.localize(`MASKS-SHEETS.CONDITIONS.${data.data.attrLeft.conditions.options[key].label}`);
+        let optionKeys = data[this.#dataPath].attrLeft.conditions.options;
+        let statsKeys = data[this.#shortPath].stats;
+        for (let key of Object.keys(optionKeys)) {
+            optionKeys[key].translation = game.i18n.localize(`MASKS-SHEETS.CONDITIONS.${optionKeys[key].label}`);
         }
-        for (let key of Object.keys(data.data.stats)) {
-            data.data.stats[key].translation = game.i18n.localize(`MASKS-SHEETS.STATS.${key}`);
+        for (let key of Object.keys(statsKeys)) {
+            statsKeys[key].translation = game.i18n.localize(`MASKS-SHEETS.STATS.${key}`);
         }
+
+        Logger.debug("Character Data:", data, this);
 
         return data;
     }
@@ -101,9 +111,19 @@ export class MasksPbtASheet extends PbtaActorSheet {
         const action = clickedElement.data().action;
         const attrValue = clickedElement.data().attr;
         const attrMax = attrValue.replace(".value", ".max");
-        const max = getProperty(this.actor.data, attrMax);
+        let max = undefined;
+        let updateValue = 0;
 
-        let updateValue = getProperty(this.actor.data, attrValue);
+        if (isNewerVersion(MasksPbtaSheets.FOUNDRY_VERSION, "10")) {
+            let valPath = attrValue.replace(this.#shortPath + ".", "");
+            let maxPath = attrMax.replace(this.#shortPath + ".", "");
+            max = getProperty(this.actor[this.#shortPath], maxPath);
+            updateValue = getProperty(this.actor[this.#shortPath], valPath);
+        } else {
+            max = getProperty(this.actor[this.#shortPath], attrMax);
+            updateValue = getProperty(this.actor[this.#shortPath], attrValue);
+        }
+
         if (action === 'increase') { updateValue++; } else { updateValue--; }
 
         if (max && max !== 0 && updateValue > max) { updateValue = max; }
@@ -155,18 +175,19 @@ export class MasksPbtASheet extends PbtaActorSheet {
         switch (action) {
             case "roll":
                 const pack = game.packs.get("masks-newgeneration-unofficial.moves-revised");
-                const influenceData = (await pack.getDocument("cKdLivE2qMEVFPXt")).data;
+                const influenceData = isNewerVersion(MasksPbtaSheets.FOUNDRY_VERSION, "10") ? (await pack.getDocument("cKdLivE2qMEVFPXt")) : (await pack.getDocument("cKdLivE2qMEVFPXt")).data;
         
                 let rollData = {
                     name: influenceData.name.replace("?", influence.name),
                     type: "move",
-                    img: influenceData.img,
-                    data: {
-                        name: '',
-                        description: influenceData.data.description,
-                        img: influenceData.data.img,
-                        rollType: ''
-                    }
+                    img: influenceData.img
+                }
+
+                rollData[this.#shortPath] = {
+                    name: '',
+                    description: influenceData[this.#shortPath].description,
+                    img: influenceData[this.#shortPath].img,
+                    rollType: ''
                 }
         
                 //create chat message
@@ -210,7 +231,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
                 dialog.render(true);
                 break;
             case "delete":
-                let resourceName = this.actor.data.data.resources.custom[id].name;
+                let resourceName = this.actor[this.#dataPath].resources.custom[id].name;
                 dialog = new Dialog({
                     title: game.i18n.localize("MASKS-SHEETS.DIALOG.Confirm-Delete"),
                     content: `${game.i18n.localize("MASKS-SHEETS.DIALOG.Confirm-Text")} <b>${resourceName}</b>.`,
@@ -259,15 +280,15 @@ export class MasksPbtASheet extends PbtaActorSheet {
         event.preventDefault();
         if (!this.isEditable) { return; }
 
-        let statUp = this.actor.data.data.stats[this.labelShiftUp];
-        let statDown = this.actor.data.data.stats[this.labelShiftDown];
+        let statUp = this.actor[this.#dataPath].stats[this.labelShiftUp];
+        let statDown = this.actor[this.#dataPath].stats[this.labelShiftDown];
         let isCustomUp = false;
         let isCustomDown = false;
 
         console.log(this.labelShiftUp, this.labelShiftDown);
         
-        if (!statUp && this.labelShiftUp !== 'none') { isCustomUp = true; statUp = this.actor.data.data.resources.custom[this.labelShiftUp]; }
-        if (!statDown && this.labelShiftDown !== 'none') { isCustomDown = true; statDown = this.actor.data.data.resources.custom[this.labelShiftDown]; }
+        if (!statUp && this.labelShiftUp !== 'none') { isCustomUp = true; statUp = this.actor[this.#dataPath].resources.custom[this.labelShiftUp]; }
+        if (!statDown && this.labelShiftDown !== 'none') { isCustomDown = true; statDown = this.actor[this.#dataPath].resources.custom[this.labelShiftDown]; }
 
         if (!statUp && !statDown) { return; }
         let statUpdate = {};
@@ -281,7 +302,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
                 content += `<b style="color: darkred">${statUp.label} ${game.i18n.localize('MASKS-SHEETS.Shifts-Up')}</b><br/>`;
                 statUpdate[`data.stats.${this.labelShiftUp}.value`] = statUp.value; 
             } else { 
-                content += `<b style="color: darkred">${this.actor.data.data.resources.custom[this.labelShiftUp].name} ${game.i18n.localize('MASKS-SHEETS.Shifts-Up')}</b><br/>`;
+                content += `<b style="color: darkred">${this.actor[this.#dataPath].resources.custom[this.labelShiftUp].name} ${game.i18n.localize('MASKS-SHEETS.Shifts-Up')}</b><br/>`;
                 statUpdate[`data.resources.custom.${this.labelShiftUp}.value`] = statUp.value; 
             }
         }
@@ -292,7 +313,7 @@ export class MasksPbtASheet extends PbtaActorSheet {
                 content += `<b style="color: red">${statDown.label} ${game.i18n.localize('MASKS-SHEETS.Shifts-Down')}</b>`;
                 statUpdate[`data.stats.${this.labelShiftDown}.value`] = statDown.value;
             } else {
-                content += `<b style="color: red">${this.actor.data.data.resources.custom[this.labelShiftDown].name} ${game.i18n.localize('MASKS-SHEETS.Shifts-Down')}</b>`;
+                content += `<b style="color: red">${this.actor[this.#dataPath].resources.custom[this.labelShiftDown].name} ${game.i18n.localize('MASKS-SHEETS.Shifts-Down')}</b>`;
                 statUpdate[`data.resources.custom.${this.labelShiftDown}.value`] = statDown.value; 
             }
         }

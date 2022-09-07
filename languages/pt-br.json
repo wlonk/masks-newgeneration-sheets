@@ -4,16 +4,30 @@
         "Advances": "Avanços",
         "Backstory": "Antecedente",
         "Cancel": "Cancelar",
-        "Conditions": "Condições",
+        "CONDITIONS": {
+            "Afraid": "Amedrontado",
+            "Afraid (-2 to engage)": "Amedrontado (-2 Engajar)",
+            "Angry": "Nervoso",
+            "Angry (-2 to comfort or pierce)": "Nervoso (-2 Confortar/Atravessar)",
+            "Guilty": "Culpado",
+            "Guilty (-2 to provoke or assess)": "Culpado (-2 Provocar/Analisar)",
+            "Hopeless": "Desolado",
+            "Hopeless (-2 to unleash)": "Desolado (-2 Liberar)",
+            "Insecure": "Inseguro",
+            "Insecure (-2 to defend or reject)": "Inseguro (-2 Defender/Rejeitar)",
+            "Label": "Condições"
+        },
         "Confirm": "Confirmar",
         "Create-Custom-Resource": "Criar Recurso Customizado",
         "Custom": "Recurso Customizado",
         "CUSTOM-RESOURCES": {
+            "Condition": "Condição",
             "Numeric": "Númerico",
+            "Stat": "Atributo",
             "Text": "Texto",
             "Toggle": "Toggle",
             "Tracker": "Rastreador"
-        },
+        },        
         "Delete-Influence": "Deletar Influência",
         "Delete-Item": "Deletar Item",
         "Delete-Custom-Resource": "Deletar Recurso Customizado",
@@ -25,7 +39,9 @@
             "Name": "Nome do Recurso",
             "Type": "Nome do Recurso"
         },
-        "Edit-Custom-Resource": "Editar Recurso CustomizadoCustom Resource",
+        "Edit-Custom-Condition": "Editar Condição Customizada!",
+        "Edit-Custom-Resource": "Editar Recurso Customizado!",
+        "Edit-Custom-Stat": "Editar Atributo Customizado!",
         "Edit-Item": "Editar Item",
         "Influence-Lock": "Travar Essa Influência",
         "Influence-Unlock": "Destravar Influência",
@@ -38,6 +54,16 @@
         "Look": "Aparência",
         "Moment": "Momento da Verdade",
         "None": "Nenhum",
+        "NPC": {
+            "Abilities": "Habilidades",
+            "Drive": "Motivação"
+        },
+        "Person-Name": "Nome",      
+                
+                                     
+                            
+          
+                                       
         "Potential": "Potencial",
         "Relationships": "Relacionamento",
         "Resources": "Recursos",
@@ -46,6 +72,20 @@
         "Shifts-Down": "Diminuir",
         "Shifts-Up": "Aumentar",
         "Shift-Labels": "Trocar Rótulos",
+        "STATS": {
+            "danger": "Danger",
+            "freak": "Freak",
+            "mundane": "Mundane",
+            "savior": "Savior",
+            "superior": "Superior"
+        },        
+                  
+                               
+                             
+                                 
+                               
+                                  
+          
         "Submit": "Enviar",
         "TheTeam": "Quando o Time se Uniu pela Primeira Vez",
         "Unlocked": "Destravado",

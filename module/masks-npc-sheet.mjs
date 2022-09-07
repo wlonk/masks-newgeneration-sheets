@@ -4,19 +4,18 @@ import { MasksPbtaSheets } from "./masks-sheets.mjs";
 import { MasksCustomResourceDialog } from "./masks-custom-resource-dialog.mjs";
 
 export class MasksPbtANPCSheet extends PbtaActorNpcSheet {
+    #dataPath = "data.data";
+    #shortPath = "data";
+
     constructor(data, context) {
         super(data, context);
+
+        if (isNewerVersion(MasksPbtaSheets.FOUNDRY_VERSION, "10")) { this.#dataPath = this.#shortPath = "system"; }
     }
 
     get template() {
         //Decision making based on permission level
-        let sheetTemplate = "modules/masks-newgeneration-sheets/templates/npc-sheet.hbs";
-        // if (!this.isOwner && !this.isEditable) {
-        //     //observer, or limited?
-        //     if (this.actor.permission === CONST.DOCUMENT_PERMISSION_LEVELS.LIMITED) {
-        //         sheetTemplate = "modules/masks-newgeneration-sheets/templates/actor-sheet-limited.hbs";
-        //     }
-        // }
+        let sheetTemplate = `modules/masks-newgeneration-sheets/templates/npc-sheet.hbs`;
         return sheetTemplate;
     }
 
@@ -35,32 +34,32 @@ export class MasksPbtANPCSheet extends PbtaActorNpcSheet {
         data.isObserver = this.actor.permission === CONST.DOCUMENT_PERMISSION_LEVELS.OBSERVER;
         data.influences = this.actor.getFlag(MasksPbtaSheets.MODULEID, "influences");
         if (!data.influences && this.isEditable) { this.actor.setFlag(MasksPbtaSheets.MODULEID, "influences", []); data.influences = []; }
-        data.customResources = this.actor.data.data.details.custom;
+        data.customResources = this.actor[this.#dataPath].details.custom;
         data.customConditions = {};
 
         if (data.customResources) {
             for (let [key, val] of Object.entries(data.customResources)) {
-                data.customResources[key].attrName = `data.details.custom.${key}`;
-                data.customResources[key].attrValue = `data.details.custom.${key}.value`;
+                data.customResources[key].attrName = `${this.#shortPath}.details.custom.${key}`;
+                data.customResources[key].attrValue = `${this.#shortPath}.details.custom.${key}.value`;
 
                 if (val.resourceType === "condition") {
                     data.customConditions[key] = {
                         label: val.name,
                         value: val.value,
                         translation: val.name,
-                        attrName: `data.details.custom.${key}`,
-                        attrValue: `data.details.custom.${key}.value`
+                        attrName: `${this.#shortPath}.details.custom.${key}`,
+                        attrValue: `${this.#shortPath}.details.custom.${key}.value`
                     };
                 }
             }
         }
 
         //Dynamic localization fields
-        for (let key of Object.keys(data.data.attrLeft.conditions.options)) {
-            data.data.attrLeft.conditions.options[key].translation = game.i18n.localize(`MASKS-SHEETS.CONDITIONS.${data.data.attrLeft.conditions.options[key].label}`);
+        for (let key of Object.keys(data[this.#shortPath].attrLeft.conditions.options)) {
+            data[this.#shortPath].attrLeft.conditions.options[key].translation = game.i18n.localize(`MASKS-SHEETS.CONDITIONS.${data[this.#shortPath].attrLeft.conditions.options[key].label}`);
         }
-        for (let key of Object.keys(data.data.stats)) {
-            data.data.stats[key].translation = game.i18n.localize(`MASKS-SHEETS.STATS.${key}`);
+        for (let key of Object.keys(data[this.#shortPath].stats)) {
+            data[this.#shortPath].stats[key].translation = game.i18n.localize(`MASKS-SHEETS.STATS.${key}`);
         }
 
         //Add misc items into "Other" category
@@ -90,9 +89,9 @@ export class MasksPbtANPCSheet extends PbtaActorNpcSheet {
         const action = clickedElement.data().action;
         const attrValue = clickedElement.data().attr;
         const attrMax = attrValue.replace(".value", ".max");
-        const max = getProperty(this.actor.data, attrMax);
+        const max = getProperty(this.actor[this.#shortPath], attrMax);
 
-        let updateValue = getProperty(this.actor.data, attrValue);
+        let updateValue = getProperty(this.actor[this.#shortPath], attrValue);
         if (action === 'increase') { updateValue++; } else { updateValue--; }
 
         if (max && max !== 0 && updateValue > max) { updateValue = max; }
@@ -149,13 +148,14 @@ export class MasksPbtANPCSheet extends PbtaActorNpcSheet {
                 let rollData = {
                     name: influenceData.name.replace("?", influence.name),
                     type: "move",
-                    img: influenceData.img,
-                    data: {
-                        name: '',
-                        description: influenceData.data.description,
-                        img: influenceData.data.img,
-                        rollType: ''
-                    }
+                    img: influenceData.img
+                }
+
+                rollData[this.#shortPath] = {
+                    name: '',
+                    description: influenceData.data.description,
+                    img: influenceData.data.img,
+                    rollType: ''
                 }
         
                 //create chat message
@@ -199,7 +199,7 @@ export class MasksPbtANPCSheet extends PbtaActorNpcSheet {
                 dialog.render(true);
                 break;
             case "delete":
-                let resourceName = this.actor.data.data.details.custom[id].name;
+                let resourceName = this.actor[this.#dataPath].details.custom[id].name;
                 dialog = new Dialog({
                     title: game.i18n.localize("MASKS-SHEETS.DIALOG.Confirm-Delete"),
                     content: `${game.i18n.localize("MASKS-SHEETS.DIALOG.Confirm-Text")} <b>${resourceName}</b>.`,
@@ -207,7 +207,7 @@ export class MasksPbtANPCSheet extends PbtaActorNpcSheet {
                         yes: {
                             label: game.i18n.localize("MASKS-SHEETS.Confirm"),
                             callback: async (html) => {
-                                let propName = `data.details.custom.-=${id}`;
+                                let propName = `${this.#shortPath}.details.custom.-=${id}`;
                                 await this.actor.update({[propName]: null});
                             }
                         },
