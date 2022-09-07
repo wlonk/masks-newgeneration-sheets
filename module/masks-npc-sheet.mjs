@@ -15,7 +15,8 @@ export class MasksPbtANPCSheet extends PbtaActorNpcSheet {
 
     get template() {
         //Decision making based on permission level
-        let sheetTemplate = `modules/masks-newgeneration-sheets/templates/npc-sheet.hbs`;
+        let versionDirectory = isNewerVersion(MasksPbtaSheets.FOUNDRY_VERSION, "10") ? "templates" : "templates/v9";
+        let sheetTemplate = `modules/masks-newgeneration-sheets/${versionDirectory}/npc-sheet.hbs`;
         return sheetTemplate;
     }
 

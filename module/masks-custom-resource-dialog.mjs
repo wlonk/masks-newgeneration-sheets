@@ -27,10 +27,12 @@ export class MasksCustomResourceDialog extends FormApplication {
             this.resourceTypes["stat"] = "MASKS-SHEETS.CUSTOM-RESOURCES.Stat";
         }
 
+        const actorDataPath = isNewerVersion(MasksPbtaSheets.FOUNDRY_VERSION, "10") ? this.actor[this.#dataPath] : this.actor.data[this.#shortPath];
+
         if (this.resourceID) {
-            this.resourceName = this.actor[this.#dataPath].resources.custom[this.resourceID].name;
-            this.resourceLimit = this.actor[this.#dataPath].resources.custom[this.resourceID].max;
-            this.resourceType = this.actor[this.#dataPath].resources.custom[this.resourceID].resourceType;
+            this.resourceName = actorDataPath.resources.custom[this.resourceID].name;
+            this.resourceLimit = actorDataPath.resources.custom[this.resourceID].max;
+            this.resourceType = actorDataPath.resources.custom[this.resourceID].resourceType;
         }
 
         this.showResourceLimit = (this.resourceType === "tracker" || this.resourceType === "numeric");
@@ -111,20 +113,21 @@ export class MasksCustomResourceDialog extends FormApplication {
         let validLimit = true;
 
         this.resourceName = this.resourceName.trim();
+        const actorDataPath = isNewerVersion(MasksPbtaSheets.FOUNDRY_VERSION, "10") ? this.actor[this.#dataPath] : this.actor.data[this.#shortPath];
 
         let custom = {};
         if (this.actor.type === "npc") {
-            if (!this.actor[this.#dataPath].details.custom) {
-                this.actor[this.#dataPath].details.custom = {};
+            if (!actorDataPath.details.custom) {
+                actorDataPath.details.custom = {};
             }
 
-            custom = this.actor[this.#dataPath].details.custom;
+            custom = actorDataPath.details.custom;
         } else {
-            if (!this.actor[this.#dataPath].resources.custom) {
-                this.actor[this.#dataPath].resources.custom = {};
+            if (!actorDataPath.resources.custom) {
+                actorDataPath.resources.custom = {};
             }
 
-            custom = this.actor[this.#dataPath].resources.custom;
+            custom = actorDataPath.resources.custom;
         }
 
         validName = this.resourceName.length > 0;

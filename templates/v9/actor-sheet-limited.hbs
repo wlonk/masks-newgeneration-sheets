@@ -1,0 +1,54 @@
+<form class="{{cssClass}}" autocomplete="off">
+  <div class="sheet-wrapper">
+    {{!-- Sheet Header --}}
+    <header class="sheet-header">
+      <div class="sheet-header__fields">
+        <input class="input--title" name="name" type="text" value="{{actor.name}}" placeholder="Name" />
+        <input class="input--title" name="heroName.value" type="text" value="{{data.attrTop.heroName.value}}"
+          placeholder="{{data.attrTop.heroName.label}}" />
+        <input class="input--title charplaybook" name="data.details.playbook" type="text"
+          value="{{data.details.playbook}}" placeholder="Playbook" list="playbooks" />
+        <datalist id="playbooks">
+          {{#each data.playbooks as |playbook id|}}
+          <option value="{{playbook}}" />
+          {{/each}}
+        </datalist>
+      </div>
+    </header>
+
+    <section class="sheet-bottom">
+      {{!-- Sidebar --}}
+      <section class="sheet-look">
+        <div class="cell cell--aesthetics">
+          <div class="cell cell--attributes-left">
+            <div class="cell cell--image">
+              <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100"
+                width="100" />
+            </div>
+          </div>
+        </div>
+      </section>
+      {{!-- Main --}}
+      <section class="sheet-main">
+        {{!-- Sheet Body --}}
+        <section class="sheet-body">
+          {{!-- Main Tab --}}
+          <div class="tab description" data-group="primary">
+            <div class="sheet-tab">
+              <div class="cell cell--bio">
+                <label class="cell__title">{{localize "MASKS-SHEETS.Look"}}</label>
+                {{editor content=data.attrLeft.look.value target="data.attrLeft.look.value" button=true owner=owner
+                editable=editable}}
+              </div>
+              <div class="cell cell--bio">
+                <label class="cell__title">{{localize "MASKS-SHEETS.Abilities"}}</label>
+                {{editor content=data.attrLeft.abilities.value target="data.attrLeft.abilities.value" button=true owner=owner
+                editable=editable}}
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </section>
+  </div>
+</form>
