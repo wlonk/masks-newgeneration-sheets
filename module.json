@@ -9,7 +9,7 @@
             "discord": "@Geekswordsman#3085"
         }
     ],
-    "version": "1.3.0",
+    "version": "1.3.1",
     "minimumCoreVersion": "9",
     "compatibleCoreVersion": "10",
     "compatibility": {
@@ -72,7 +72,7 @@
     "system": "pbta",
     "url": "https://gitlab.com/geekswordsman/masks-newgeneration-sheets",
     "manifest": "https://gitlab.com/api/v4/projects/geekswordsman%2Fmasks-newgeneration-sheets/packages/generic/release/latest/module.json",
-    "download": "https://gitlab.com/geekswordsman/masks-newgeneration-sheets/-/archive/v1.3.0/masks-newgeneration-sheets-v1.3.0.zip",
+    "download": "https://gitlab.com/geekswordsman/masks-newgeneration-sheets/-/archive/v1.3.1/masks-newgeneration-sheets-v1.3.1.zip",
     "license": "https://gitlab.com/geekswordsman/masks-newgeneration-sheets/-/raw/main/LICENSE",
     "readme": "https://gitlab.com/geekswordsman/masks-newgeneration-sheets/-/raw/main/README.MD",
     "bugs": "https://gitlab.com/geekswordsman/masks-newgeneration-sheets/-/issues",
