@@ -32,10 +32,12 @@ export class MasksPbtANPCSheet extends PbtaActorNpcSheet {
     async getData() {
         const data = await super.getData();
 
+        const actorDataPath = isNewerVersion(MasksPbtaSheets.FOUNDRY_VERSION, "10") ? this.actor[this.#dataPath] : this.actor.data[this.#shortPath];
+
         data.isObserver = this.actor.permission === CONST.DOCUMENT_PERMISSION_LEVELS.OBSERVER;
         data.influences = this.actor.getFlag(MasksPbtaSheets.MODULEID, "influences");
         if (!data.influences && this.isEditable) { this.actor.setFlag(MasksPbtaSheets.MODULEID, "influences", []); data.influences = []; }
-        data.customResources = this.actor[this.#dataPath].details.custom;
+        data.customResources = actorDataPath.details.custom;
         data.customConditions = {};
 
         if (data.customResources) {
@@ -189,6 +191,7 @@ export class MasksPbtANPCSheet extends PbtaActorNpcSheet {
         const action = clickedElement.data().action;
         const id = clickedElement.parents('[data-id]')?.data()?.id;
         let dialog = null;
+        const actorDataPath = isNewerVersion(MasksPbtaSheets.FOUNDRY_VERSION, "10") ? this.actor[this.#dataPath] : this.actor.data[this.#shortPath];
 
         switch (action) {
             case "create":
@@ -200,7 +203,7 @@ export class MasksPbtANPCSheet extends PbtaActorNpcSheet {
                 dialog.render(true);
                 break;
             case "delete":
-                let resourceName = this.actor[this.#dataPath].details.custom[id].name;
+                let resourceName = actorDataPath.details.custom[id].name;
                 dialog = new Dialog({
                     title: game.i18n.localize("MASKS-SHEETS.DIALOG.Confirm-Delete"),
                     content: `${game.i18n.localize("MASKS-SHEETS.DIALOG.Confirm-Text")} <b>${resourceName}</b>.`,

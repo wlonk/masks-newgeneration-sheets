@@ -1,3 +1,6 @@
+#1.3.1
+ - Fixed issue with NPC sheets not rendering in FoundryVTT v9 (#17)
+ 
 #1.3.0
  - Foundry v10 Compatibility!
 
