@@ -1,4 +1,5 @@
 {
+    "id": "masks-newgeneration-sheets",
     "name": "masks-newgeneration-sheets",
     "title": "Masks: A New Generation Sheets",
     "description": "A default set of enhanced and updated sheets for use with Masks: A New Generation!",
@@ -7,6 +8,10 @@
         {
             "name": "Geekswordsman",
             "discord": "@Geekswordsman#3085"
+        },
+        {
+            "name": "Kit",
+            "discord": "wlonk#6479"
         }
     ],
     "version": "1.3.1",
